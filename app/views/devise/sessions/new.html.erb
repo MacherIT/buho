@@ -1,0 +1,26 @@
+<h2>Ingresar</h2>
+
+<div class="form-container">
+
+  <%= bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+    <div class="field">
+      <%= f.email_field :email, autofocus: true, label: "Email" %>
+    </div>
+
+    <div class="field">
+      <%= f.password_field :password, autocomplete: "off", label: "Contraseña" %>
+    </div>
+
+    <% if devise_mapping.rememberable? -%>
+      <div class="field">
+        <%= f.check_box :remember_me, label: "Recordarme" %>
+      </div>
+    <% end -%>
+
+    <div class="actions">
+      <%= f.submit "Ingresar" %>
+    </div>
+  <% end %>
+
+<%= render "devise/shared/links" %>

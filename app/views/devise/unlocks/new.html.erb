@@ -1,0 +1,16 @@
+<h2>Reenviar instrucciones de reseteo</h2>
+
+<%= bootstrap_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="field">
+    <!-- <%= f.label :email %><br /> -->
+    <%= f.email_field :email, autofocus: true, label: "Email" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Reenvíenme las instrucciones de reseteo" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>

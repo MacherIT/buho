@@ -1,0 +1,123 @@
+<h2>Editar perfil</h2>
+
+<div class="form-container">
+
+<div class="double-col">
+  <%= form_tag('/avatars', method: :put, class: 'avatar_form') do |f| %>
+    <% if @user.avatar.attached? %>
+      <%= image_tag @user.avatar.variant(resize: "200x200"), class: 'avatar', id: 'du-complete' %>
+    <% end %>
+    <div class="invisible", id="imagen_subida">
+      <%= fa_icon "file-image-o 3x" %>
+      <p>Foto cargada</p>
+    </div>
+
+    <div class="avatar_data">
+      <p><strong>Foto</strong></p>
+      <div class="field">
+        <%= file_field_tag :avatar, label: "Foto",  direct_upload: true %><br>
+      </div>
+      <div class="actions">
+        <%= submit_tag "Guardar foto", class: "btn btn-success" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <div class="">
+
+  <!-- <%= devise_error_messages! %> -->
+
+  <div class="double-col">
+    <div class="field">
+      <%= f.email_field :email, autofocus: true %>
+    </div>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>Todavía se espera confirmación de: <%= resource.unconfirmed_email %></div>
+    <% end %>
+
+    <div class="field half_w left">
+      <%= f.text_field :nombre, required: true%>
+    </div>
+
+    <div class="field half_w">
+      <%= f.text_field :apellido, required: true%>
+    </div>
+
+    <div class="caja">
+      <h4>Cambiar contraseña</h4>
+      <div class="field">
+        <%= f.password_field :current_password, autocomplete: "off", label: "Contraseña actual" %>
+      </div>
+      <div class="field half_w left">
+        <%= f.password_field :password, autocomplete: "off", label: "Nueva contraseña",
+          help: "(#{@minimum_password_length} caracteres mínimo)" %>
+      </div>
+      <div class="field half_w">
+        <%= f.password_field :password_confirmation, autocomplete: "off", label: "Confirmar" %>
+      </div>
+    </div>
+
+  </div> <!--double-col uno-->
+
+  <div class="double-col dos">
+
+    <div class="field third_w">
+      <label class="control-label">Género</label>
+      <%= f.radio_button :genero, :f, label: "Femenino" %>
+      <%= f.radio_button :genero, :m, label: "Masculino" %>
+    </div>
+
+    <div class="field two_thirds_w">
+      <%= f.select :id_type, ID_TIPOS.each_with_index.map{ |k,i| [k,i] }, required: true, label: "Tipo de ID" %>
+      <%= f.number_field :id_num, required: true, label: "Número" %>
+    </div>
+
+    <div class="field half_w">
+      <%= f.select :estudios, ESTUDIOS_LISTA.each_with_index.map{ |k,i| [k,i] }, required: true, label: "Estudios"%>
+    </div>
+
+    <div class="field half_w">
+      <%= f.telephone_field :tel, label: "Teléfono"%>
+    </div>
+
+    <div class="field half_w">
+      <%= f.text_field :domicilio, label: "Domicilio"%>
+    </div>
+
+    <div class="field half_w">
+      <%= f.text_field :ciudad, label: "Ciudad"%>
+    </div>
+
+    <div class="field half_w">
+      <%= f.text_field :facebook, label: "Facebook" %>
+    </div>
+
+    <div class="field half_w">
+      <%= f.text_field :twitter, label: "Twitter" %>
+    </div>
+
+    <div class="field half_w">
+      <%= f.text_field :instagram, label: "Instagram"%>
+    </div>
+
+    <div class="field half_w">
+      <%= f.text_field :linkedin, label: "Linkedin" %>
+    </div>
+
+  </div> <!-- double-col dos-->
+
+</div>
+  <div class="actions botones">
+    <%= f.submit "Guardar" %>
+  </div>
+  <% end %>
+
+
+  <div class="actions botones">
+    <%= button_to "Eliminar usuario", registration_path(resource_name), class: "btn btn-danger", data: { confirm: "Esto destruirá tu usuario de forma permanente. Tus emprendimientos e instituciones seguirán existiendo, pero perderás control sobre ellos.\n¿Estás seguro?" }, method: :delete %>
+  </div>
+
+</div>

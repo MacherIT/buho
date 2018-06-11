@@ -1,0 +1,40 @@
+<%% provide(:title, "Lista de <%= plural_table_name %>") %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+      <th><%= attribute.human_name %></th>
+<% end -%>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%% @<%= plural_table_name %>.each do |<%= singular_table_name %>| %>
+      <tr>
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+        <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
+<% end -%>
+        <td>
+          <div class="btn-group">
+            <%%= link_to <%= singular_table_name %>, class: "btn btn-xs btn-default" do %>
+              <%%= fa_icon("eye", text: "Ver") %>
+            <%% end %>
+            <%%= link_to edit_<%= singular_table_name %>_path(<%= singular_table_name %>), class: "btn btn-xs btn-default" do %>
+              <%%= fa_icon("pencil", text: "Editar") %>
+            <%% end %>
+            <%%= link_to <%= singular_table_name %>, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de eliminar este <%= singular_table_name %>?" } do %>
+              <%%= fa_icon("trash-o", text: "Eliminar") %>
+            <%% end %>
+          </div>
+      </tr>
+    <%% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%%= link_to new_<%= singular_table_name %>_path, class: "btn btn-default" do %>
+  <%%= fa_icon("plus", text: "Nuevo <%= human_name %>") %>
+<%% end %>
