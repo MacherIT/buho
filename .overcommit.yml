@@ -42,6 +42,18 @@ PreCommit:
     exclude:
       - "**/db/structure.sql"
 
+  CapitalizedSubject:
+    enabled: false
+
+  TrailingPeriod:
+    enabled: false
+
+  TextWidth:
+    enabled: true
+    description: 'Checking text width'
+    max_subject_width: 120
+    max_body_width: 144
+
   YamlSyntax:
     enabled: true
 
