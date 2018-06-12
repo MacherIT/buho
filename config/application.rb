@@ -29,8 +29,8 @@ module Gema
     # Generator config
     config.generators do |g|
       g.scaffold_stylesheet false
-      g.jbuilder false
-      g.test_framework false
+      # g.jbuilder false
+      # g.test_framework  :test_unit, fixture: false
       g.javascripts false
       g.helper false
     end
