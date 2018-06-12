@@ -42,6 +42,15 @@ PreCommit:
     exclude:
       - "**/db/structure.sql"
 
+
+  YamlSyntax:
+    enabled: true
+
+PostCheckout:
+  ALL:
+    quiet: true
+
+CommitMsg:
   CapitalizedSubject:
     enabled: false
 
@@ -53,10 +62,3 @@ PreCommit:
     description: 'Checking text width'
     max_subject_width: 120
     max_body_width: 144
-
-  YamlSyntax:
-    enabled: true
-
-PostCheckout:
-  ALL:
-    quiet: true
