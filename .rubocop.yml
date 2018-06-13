@@ -37,6 +37,9 @@ Metrics/LineLength:
   Exclude:
     - "config/**/*"
     - "db/**/*"
+    - "app/controllers/**"
+    - "test/controllers/**"
+
 
 Metrics/MethodLength:
   Max: 12
@@ -76,7 +79,7 @@ Style/Documentation:
   Enabled: false
 
 Style/DoubleNegation:
-  Enabled: false
+  Enabled: true
 
 Style/EmptyMethod:
   Enabled: false
@@ -89,6 +92,10 @@ Style/NumericPredicate:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+  Exclude:
+    - "app/controllers/**"
+    - "test/controller/**"
+    - "test/models/**"
 
 Style/TrivialAccessors:
   AllowPredicates: true
