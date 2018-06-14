@@ -1,89 +1,28 @@
-<h2>¡Bienvenido! Creá tu usuario</h2>
+<% provide(:title, "¡Bienvenido! Creá tu usuario.") %>
 
+<!-- <h2>¡Bienvenido! Creá tu usuario</h2> -->
 <div class="form-container">
 
   <%= bootstrap_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%= devise_error_messages! %>
+  <%= devise_error_messages! %>
 
-    <div class="">
+  <div class="field">
+    <!-- <%= f.label :email %><br /> -->
+    <%= f.email_field :email, autofocus: true, label: "Email" %>
+  </div>
 
-      <div class="double-col">
+  <div class="field">
+    <!-- <%= f.label :password %> -->
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %>
+      caracteres mínimo)</em>
+    <% end %><br/>
+    <%= f.password_field :password, autocomplete: "off", label: "Contraseña" %>
+  </div>
 
-        <div class="field">
-          <!-- <%= f.label :email %><br /> -->
-          <%= f.email_field :email, autofocus: true, label: "Email" %>
-        </div>
-
-        <div class="field">
-          <!-- <%= f.label :password %> -->
-          <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> caracteres mínimo)</em>
-          <% end %><br />
-          <%= f.password_field :password, autocomplete: "off", label: "Contraseña" %>
-        </div>
-
-        <div class="field">
-          <%= f.text_field :nombre, required: true%>
-        </div>
-
-        <div class="field">
-          <%= f.text_field :apellido, required: true%>
-        </div>
-
-        <div class="field third_w">
-          <%= f.radio_button :genero, :f, label: "Femenino" %>
-          <%= f.radio_button :genero, :m, label: "Masculino" %>
-        </div>
-
-        <div class="field two_thirds_w">
-          <%= f.select :id_type, ID_TIPOS.each_with_index.map{ |k,i| [k,i] }, required: true, label: "Tipo de ID"%>
-        <!-- </div>
-        <div class="field"> -->
-          <%= f.number_field :id_num, required: true, label: "Número" %>
-        </div>
-
-      </div>
-      <div class="double-col dos">
-
-        <div class="field half_w">
-          <%= f.telephone_field :tel, label: "Teléfono"%>
-        </div>
-
-        <div class="field half_w">
-          <%= f.select :estudios, ESTUDIOS_LISTA.each_with_index.map{ |k,i| [k,i] }, required: true, label: "Estudios"%>
-        </div>
-
-        <div class="field half_w">
-          <%= f.text_field :domicilio, label: "Domicilio"%>
-        </div>
-
-        <div class="field half_w">
-          <%= f.text_field :ciudad, label: "Ciudad"%>
-        </div>
-
-        <div class="field half_w">
-          <%= f.text_field :facebook, label: "Facebook" %>
-        </div>
-
-        <div class="field half_w">
-          <%= f.text_field :twitter, label: "Twitter" %>
-        </div>
-
-        <div class="field half_w">
-          <%= f.text_field :instagram, label: "Instagram"%>
-        </div>
-
-        <div class="field half_w">
-          <%= f.text_field :linkedin, label: "Linkedin" %>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="actions">
-      <%= f.submit "Registrate" %>
-    </div>
+  <div class="actions">
+    <%= f.submit "Registrate" %>
+  </div>
   <% end %>
 
 </div>

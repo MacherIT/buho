@@ -129,16 +129,8 @@ ActiveSupport::Inflector.inflections(:es) do |inflect|
   #############
 
   ActiveSupport::Inflector.inflections do |infl|
-    infl.irregular "cuenta", "cuentas"
-    infl.irregular "proveedor", "proveedores"
-    infl.irregular "club", "clubes"
-    infl.irregular "participacion", "participaciones"
-    infl.irregular "preferencia", "preferencias"
-    infl.irregular "provincia", "provincias"
-    infl.irregular "ciudad", "ciudades"
-    infl.irregular "error", "errores"
     infl.irregular "permitió", "permitieron"
-    infl.irregular "lugar", "lugares"
+    infl.irregular "user", "users"
   end
 end
 
