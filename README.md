@@ -15,7 +15,7 @@ This project requires:
 * Ruby 2.4.2, preferably managed using [rbenv][]
 * Chromedriver for Capybara testing
 * PostgreSQL must be installed and accepting connections
-* [Redis][] must be installed and running on localhost with the default port
+* [Redis][] must be installed and running on localhost with the default port. This may be done following instructions for [Ubuntu 16](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04)
 
 On a Mac, you can obtain all of the above packages using [Homebrew][].
 
