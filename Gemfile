@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "2.4.2"
 
 gem "active_type", ">= 0.3.2"
+gem "sprockets", ">= 3.7.2"
 gem "autoprefixer-rails", ">= 5.0.0.1"
 gem "bcrypt", "~> 3.1.7"
 gem "bootstrap_form", "~> 2.3"
