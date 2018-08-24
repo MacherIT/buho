@@ -10,6 +10,7 @@
 
 class Cliente < ApplicationRecord
   has_many :redes, dependent: :destroy
+  has_many :posts, through: :redes
 
   validates :nombre, presence: true
 end

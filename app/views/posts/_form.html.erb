@@ -1,0 +1,14 @@
+<%= bootstrap_form_for(@post) do |f| %>
+
+  <%= f.alert_message "Han ocurrido los siguientes problemas:" %>
+
+  <%= f.datetime_select :hora_pub %>
+  <%= f.text_field :titulo %>
+  <%= f.text_field :texto %>
+  <%= f.number_field :publicado %>
+  <%= f.text_field :red_id %>
+
+  <%= f.primary %>
+  <%= link_to "Atrás", posts_path, class: "btn btn-link" %>
+
+<% end %>

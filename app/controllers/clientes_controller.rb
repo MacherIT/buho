@@ -8,12 +8,17 @@
 #  updated_at :datetime         not null
 #
 
+require "net/http"
+require "open-uri"
+# require "net/http/post/multi+part"
+
 class ClientesController < ApplicationController
   before_action :set_cliente, only: %i[show edit update destroy]
 
   # GET /clientes
   def index
     @clientes = Cliente.all
+    # @test_result = post_test
   end
 
   # GET /clientes/1
@@ -35,7 +40,7 @@ class ClientesController < ApplicationController
     @cliente = Cliente.new(cliente_params)
 
     if @cliente.save
-      redirect_to @cliente, notice: 'Cliente fue creado satisfactoriamente.'
+      redirect_to @cliente, notice: "Cliente fue creado satisfactoriamente."
     else
       render :new
     end
@@ -44,7 +49,7 @@ class ClientesController < ApplicationController
   # PATCH/PUT /clientes/1
   def update
     if @cliente.update(cliente_params)
-      redirect_to @cliente, notice: 'Cliente fue guardado satisfactoriamente.'
+      redirect_to @cliente, notice: "Cliente fue guardado satisfactoriamente."
     else
       render :edit
     end
@@ -53,7 +58,7 @@ class ClientesController < ApplicationController
   # DELETE /clientes/1
   def destroy
     @cliente.destroy
-    redirect_to clientes_url, notice: 'Cliente fue eliminado satisfactoriamente.'
+    redirect_to clientes_url, notice: "Cliente fue eliminado satisfactoriamente."
   end
 
   private

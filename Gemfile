@@ -25,6 +25,8 @@ gem "sidekiq", ">= 4.2.0"
 gem "turbolinks", "~> 5"
 gem "haml"
 gem "devise"
+gem "multipart-post"
+gem "koala"
 
 group :test, :development do
   gem "factory_bot_rails"

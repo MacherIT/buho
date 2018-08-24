@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: reds
+# Table name: redes
 #
 #  cliente_id     :bigint(8)
 #  created_at     :datetime         not null
@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_reds_on_cliente_id  (cliente_id)
+#  index_redes_on_cliente_id  (cliente_id)
 #
 # Foreign Keys
 #
@@ -22,6 +22,7 @@
 
 class Red < ApplicationRecord
   belongs_to :cliente
+  has_many :posts, dependent: :destroy
 
   def tipo_cast
     REDES_TIPOS.select { |_k, v| v == tipo }.keys.first.to_s.capitalize

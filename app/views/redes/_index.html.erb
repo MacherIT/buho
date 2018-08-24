@@ -15,7 +15,7 @@
     <% @redes.each do |red| %>
       <tr>
         <td><%= red.tipo_cast %></td>
-        <td><%= red.token %></td>
+        <td><%= red.token.blank?? '---' : red.token[0..10] + '...' %></td>
         <td><%= red.nombre %></td>
         <td><%= red.nombre_display %></td>
         <td><%= red.cliente.nombre %></td>
