@@ -22,12 +22,12 @@
     </tr>
     <tr>
       <th class="col-sm-2">Cliente</th>
-      <td><%= @red.cliente %></td>
+      <td><%= @red.cliente.nombre %></td>
     </tr>
   </tbody>
 </table>
 
 <p>
   <%= link_to "Editar", edit_red_path(@red), class: "btn btn-primary" %>
-  <%= link_to "Atrás", reds_path, class: "btn btn-link" %>
+  <%= link_to "Atrás", redes_path, class: "btn btn-link" %>
 </p>

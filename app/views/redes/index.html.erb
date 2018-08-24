@@ -1,0 +1,9 @@
+<% provide(:title, "Lista de redes") %>
+
+<%= render 'index', '@redes': @redes  %>
+
+<br>
+
+<%= link_to new_red_path, class: "btn btn-default" do %>
+  <%= fa_icon("plus", text: "Nueva Red") %>
+<% end %>

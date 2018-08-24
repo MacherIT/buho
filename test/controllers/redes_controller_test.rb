@@ -1,12 +1,12 @@
 require "test_helper"
 
-class RedsControllerTest < ActionDispatch::IntegrationTest
+class RedesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @red = FactoryBot.create(:red)
   end
 
   test "should get index" do
-    get reds_url
+    get redes_url
     assert_response :success
   end
 
@@ -16,8 +16,8 @@ class RedsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create red" do
-    assert_difference('Red.count') do
-      post reds_url, params: { red: { cliente_id: @red.cliente_id, nombre: @red.nombre, nombre_display: @red.nombre_display, tipo: @red.tipo, token: @red.token } }
+    assert_difference("Red.count") do
+      post redes_url, params: { red: { cliente_id: @red.cliente_id, nombre: @red.nombre, nombre_display: @red.nombre_display, tipo: @red.tipo, token: @red.token } }
     end
 
     assert_redirected_to red_url(Red.last)
@@ -39,10 +39,10 @@ class RedsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy red" do
-    assert_difference('Red.count', -1) do
+    assert_difference("Red.count", -1) do
       delete red_url(@red)
     end
 
-    assert_redirected_to reds_url
+    assert_redirected_to redes_url
   end
 end

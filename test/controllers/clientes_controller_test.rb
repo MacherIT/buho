@@ -16,7 +16,7 @@ class ClientesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create cliente" do
-    assert_difference('Cliente.count') do
+    assert_difference("Cliente.count") do
       post clientes_url, params: { cliente: { nombre: @cliente.nombre } }
     end
 
@@ -39,7 +39,7 @@ class ClientesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy cliente" do
-    assert_difference('Cliente.count', -1) do
+    assert_difference("Cliente.count", -1) do
       delete cliente_url(@cliente)
     end
 

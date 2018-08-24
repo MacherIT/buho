@@ -1,17 +1,17 @@
 require "application_system_test_case"
 
-class RedsTest < ApplicationSystemTestCase
+class RedesTest < ApplicationSystemTestCase
   setup do
     @red = FactoryBot.create(:red)
   end
 
   test "visiting the index" do
-    visit reds_url
-    assert_selector "h1", text: "Reds"
+    visit redes_url
+    assert_selector "h1", text: "Redes"
   end
 
   test "creating a Red" do
-    visit reds_url
+    visit redes_url
     click_on "New Red"
 
     fill_in "Cliente", with: @red.cliente_id
@@ -26,7 +26,7 @@ class RedsTest < ApplicationSystemTestCase
   end
 
   test "updating a Red" do
-    visit reds_url
+    visit redes_url
     click_on "Edit", match: :first
 
     fill_in "Cliente", with: @red.cliente_id
@@ -41,7 +41,7 @@ class RedsTest < ApplicationSystemTestCase
   end
 
   test "destroying a Red" do
-    visit reds_url
+    visit redes_url
     page.accept_confirm do
       click_on "Destroy", match: :first
     end

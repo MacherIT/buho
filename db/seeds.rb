@@ -8,8 +8,8 @@
 
 logger = Logger.new(STDOUT)
 
-logger.info "Usuario"
-User.create(email: "hola@macherit.com", password: "123456")
+# logger.info "Usuario"
+# User.create(email: "hola@macherit.com", password: "123456")
 
 logger.info "Clientes"
 cliente = FactoryBot.create(:cliente, nombre: "Mil Ruedas")

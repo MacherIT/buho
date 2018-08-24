@@ -5,7 +5,7 @@
 # Common inflections for Spanish.
 # Flexiones más comunes para español.
 #
-ActiveSupport::Inflector.inflections(:es) do |inflect|
+ActiveSupport::Inflector.inflections do |inflect|
   ############# Reglas generales
   #
   # De acuerdo a http://lema.rae.es/dpd/srv/search?id=Iwao8PGQ8D6QkHPn4i

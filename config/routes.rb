@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  resources :reds
   devise_for :users
 
   # Solo para usuarios autenticados (todo el sitio)
   authenticated :user do
-    resources :clientes
+    resources :clientes do
+      resources :redes
+    end
+    resources :redes
     root to: "clientes#index" # , as: :authenticated_root
     mount Sidekiq::Web => "/sidekiq" # monitoring console
   end

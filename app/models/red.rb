@@ -22,4 +22,8 @@
 
 class Red < ApplicationRecord
   belongs_to :cliente
+
+  def tipo_cast
+    REDES_TIPOS.select { |_k, v| v == tipo }.keys.first.to_s.capitalize
+  end
 end

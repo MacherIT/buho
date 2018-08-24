@@ -2,13 +2,14 @@
 
   <%= f.alert_message "Han ocurrido los siguientes problemas:" %>
 
-  <%= f.number_field :tipo %>
+  <!-- <%= f.number_field :tipo %> -->
+  <%= f.select :tipo, REDES_TIPOS.map { |k, v| [k.capitalize, v] }, required: true, label: "Red"%>
   <%= f.text_field :token %>
   <%= f.text_field :nombre %>
   <%= f.text_field :nombre_display %>
   <%= f.text_field :cliente_id %>
 
   <%= f.primary %>
-  <%= link_to "Atrás", reds_path, class: "btn btn-link" %>
+  <%= link_to "Atrás", redes_path, class: "btn btn-link" %>
 
 <% end %>

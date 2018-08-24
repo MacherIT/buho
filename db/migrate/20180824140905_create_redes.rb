@@ -1,6 +1,6 @@
-class CreateReds < ActiveRecord::Migration[5.2]
+class CreateRedes < ActiveRecord::Migration[5.2]
   def change
-    create_table :reds do |t|
+    create_table :redes do |t|
       t.integer :tipo, null: false, default: 0
       t.string :token
       t.string :nombre, null: false, default: ""

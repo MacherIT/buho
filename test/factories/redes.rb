@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: reds
+# Table name: redes
 #
 #  cliente_id     :bigint(8)
 #  created_at     :datetime         not null
@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_reds_on_cliente_id  (cliente_id)
+#  index_redes_on_cliente_id  (cliente_id)
 #
 # Foreign Keys
 #
@@ -22,10 +22,10 @@
 
 FactoryBot.define do
   factory :red do
-    tipo 0
-    token "MyString"
+    tipo 1
+    token
     nombre "MyString"
-    nombre_display "MyString"
+    nombre_display
     cliente { Cliente.all.sample }
   end
 end

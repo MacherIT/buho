@@ -1,5 +1,15 @@
+# == Schema Information
+#
+# Table name: clientes
+#
+#  created_at :datetime         not null
+#  id         :bigint(8)        not null, primary key
+#  nombre     :string           default(""), not null
+#  updated_at :datetime         not null
+#
+
 class ClientesController < ApplicationController
-  before_action :set_cliente, only: [:show, :edit, :update, :destroy]
+  before_action :set_cliente, only: %i[show edit update destroy]
 
   # GET /clientes
   def index
@@ -8,6 +18,7 @@ class ClientesController < ApplicationController
 
   # GET /clientes/1
   def show
+    # @redes = @cliente.redes
   end
 
   # GET /clientes/new
@@ -46,13 +57,14 @@ class ClientesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_cliente
-      @cliente = Cliente.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def cliente_params
-      params.require(:cliente).permit(:nombre)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_cliente
+    @cliente = Cliente.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def cliente_params
+    params.require(:cliente).permit(:nombre)
+  end
 end
