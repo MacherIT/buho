@@ -35,6 +35,7 @@ class RedesController < ApplicationController
   # GET /redes/new
   def new
     @red = Red.new
+    @cliente = Cliente.find(params[:cliente_id])
   end
 
   # GET /redes/1/edit

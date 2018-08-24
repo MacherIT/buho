@@ -1,4 +1,5 @@
-<% provide(:title, "Nuevo red") %>
+<% @cliente.present?? provide(:title, "Nueva red de #{@cliente.nombre}") : provide(:title, "Nueva red") %>
+
 
 <div class="row">
   <div class="col-md-8">
