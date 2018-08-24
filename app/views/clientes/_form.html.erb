@@ -1,0 +1,10 @@
+<%= bootstrap_form_for(@cliente) do |f| %>
+
+  <%= f.alert_message "Han ocurrido los siguientes problemas:" %>
+
+  <%= f.text_field :nombre %>
+
+  <%= f.primary %>
+  <%= link_to "Atrás", clientes_path, class: "btn btn-link" %>
+
+<% end %>

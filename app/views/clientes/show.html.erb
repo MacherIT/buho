@@ -1,0 +1,17 @@
+<% provide(:title) do %>
+  Cliente #<%= @cliente.id %>
+<% end %>
+
+<table class="table table-bordered">
+  <tbody>
+    <tr>
+      <th class="col-sm-2">Nombre</th>
+      <td><%= @cliente.nombre %></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  <%= link_to "Editar", edit_cliente_path(@cliente), class: "btn btn-primary" %>
+  <%= link_to "Atrás", clientes_path, class: "btn btn-link" %>
+</p>

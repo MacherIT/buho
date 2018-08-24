@@ -1,0 +1,33 @@
+<% provide(:title) do %>
+  Red #<%= @red.id %>
+<% end %>
+
+<table class="table table-bordered">
+  <tbody>
+    <tr>
+      <th class="col-sm-2">Tipo</th>
+      <td><%= @red.tipo %></td>
+    </tr>
+    <tr>
+      <th class="col-sm-2">Token</th>
+      <td><%= @red.token %></td>
+    </tr>
+    <tr>
+      <th class="col-sm-2">Nombre</th>
+      <td><%= @red.nombre %></td>
+    </tr>
+    <tr>
+      <th class="col-sm-2">Nombre display</th>
+      <td><%= @red.nombre_display %></td>
+    </tr>
+    <tr>
+      <th class="col-sm-2">Cliente</th>
+      <td><%= @red.cliente %></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  <%= link_to "Editar", edit_red_path(@red), class: "btn btn-primary" %>
+  <%= link_to "Atrás", reds_path, class: "btn btn-link" %>
+</p>
