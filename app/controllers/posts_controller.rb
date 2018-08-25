@@ -24,12 +24,13 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy post_test]
 
   def post_test
+    return unless @post.imagen.attached?
     # @post = Cliente.find(params[:cliente_id]).posts.last
     # page_id = 840441896130892 # (Viguard)
     # page_id = @cliente.page_id
-    token = @post.red.token
+    @token = @post.red.token
 
-    @page_graph = Koala::Facebook::API.new(token)
+    @page_graph = Koala::Facebook::API.new(@token)
     # me = @page_graph.get_object('me') # I'm a page
     # @page_graph.put_picture(File.open('public/images/buho.jpg'), {caption: "Comentario"})
 
@@ -41,7 +42,8 @@ class PostsController < ApplicationController
     # @page_graph.put_picture(open(Rails.application.routes.url_helpers.rails_blob_url(@post.imagen, host: 'localhost:5000') ), {caption: "Comentario"})
 
     # FIXME: No se esta casteando bien la imagen
-    @page_graph.put_picture(send_file(@post.imagen.download, filename: @post.imagen.filename.to_s, content_type: @post.imagen.content_type), caption: "Comentario")
+    @page_graph.put_picture(rails_blob_url(@post.imagen), caption: @post.texto)
+    # @page_graph.put_picture('https://www.facebook.com/images/fb_icon_325x325.png', caption: "Comentario")
 
     # Ejemplo para cuando la foto ya esta subida
     # uri = URI("https://graph.facebook.com/#{page_id}/photos")
@@ -54,6 +56,16 @@ class PostsController < ApplicationController
     # )
     # puts res.body
     # res.body
+  end
+
+  # GET post_imagen/:id
+  def imagen_url
+    @imagen_url = nil
+    @imagen = Post.find(params[:id]).imagen
+    @imagen_url = rails_blob_url(@imagen) if @imagen.attached?
+    respond_to do |format|
+      format.json { render json: @imagen_url }
+    end
   end
 
   # GET /posts

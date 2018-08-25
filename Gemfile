@@ -28,6 +28,7 @@ gem "devise"
 # gem "multipart-post"
 gem "koala"
 gem "factory_bot_rails"
+gem 'mini_magick'
 
 group :test, :development do
   gem "faker"

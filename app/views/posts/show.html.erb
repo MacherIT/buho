@@ -19,7 +19,11 @@
     </tr>
     <tr>
       <th class="col-sm-2">Imagen</th>
+      <% if @post.imagen.attached? %>
       <td><%= image_tag @post.imagen %></td>
+        <!-- TODO: Usar variants -->
+        <!-- <td><%= image_tag @post.imagen.variant(resize: "300x300") %></td> -->
+      <% end %>
     </tr>
     <tr>
       <th class="col-sm-2">Publicado</th>
@@ -34,7 +38,7 @@
 
 <p>
   <%= button_to "/post_test/#{@post.id}", class: "btn btn-xs btn-success" do %>
-    <%= fa_icon("share", text: "") %>
+    <%= fa_icon("share", text: "Postear") %>
   <% end %>
   <%= link_to "Editar", edit_post_path(@post), class: "btn btn-primary" %>
   <%= link_to "Atrás", posts_path, class: "btn btn-link" %>

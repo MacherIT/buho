@@ -200,6 +200,8 @@ GEM
     metaclass (0.0.4)
     method_source (0.9.0)
     mimemagic (0.3.2)
+    mini_magick (3.8.0)
+      subexec (~> 0.2.1)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
@@ -322,6 +324,7 @@ GEM
     sshkit (1.16.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    subexec (0.2.3)
     temple (0.8.0)
     terminal-notifier (2.0.0)
     terminal-notifier-guard (1.7.0)
@@ -381,6 +384,7 @@ DEPENDENCIES
   listen (>= 3.0.5)
   mail (>= 2.6.3)
   marco-polo
+  mini_magick
   minitest-ci (>= 3.3.0)
   mocha (>= 1.4.0)
   overcommit (>= 0.37.0)
