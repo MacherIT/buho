@@ -25,37 +25,19 @@ class PostsController < ApplicationController
 
   def post_test
     return unless @post.imagen.attached?
-    # @post = Cliente.find(params[:cliente_id]).posts.last
-    # page_id = 840441896130892 # (Viguard)
-    # page_id = @cliente.page_id
     @token = @post.red.token
-
     @page_graph = Koala::Facebook::API.new(@token)
-    # me = @page_graph.get_object('me') # I'm a page
-    # @page_graph.put_picture(File.open('public/images/buho.jpg'), {caption: "Comentario"})
-
-    # open('temp.png', 'wb') do |file|
-    #   file << open(Rails.application.routes.url_helpers.rails_blob_url(@post.imagen, host: 'localhost:5000')).read
-    # end
-    # @page_graph.put_picture(File.open('temp.png'), {caption: "Comentario"})
-
-    # @page_graph.put_picture(open(Rails.application.routes.url_helpers.rails_blob_url(@post.imagen, host: 'localhost:5000') ), {caption: "Comentario"})
-
-    # FIXME: No se esta casteando bien la imagen
-    @page_graph.put_picture(rails_blob_url(@post.imagen), caption: @post.texto)
-    # @page_graph.put_picture('https://www.facebook.com/images/fb_icon_325x325.png', caption: "Comentario")
-
-    # Ejemplo para cuando la foto ya esta subida
-    # uri = URI("https://graph.facebook.com/#{page_id}/photos")
-    # res = Net::HTTP.post_form(
-    #   uri,
-    #   "data" => @post.imagen.attachment.blob,
-    #   # "url" => "https://www.facebook.com/images/fb_icon_325x325.png",
-    #   "caption" => "Comentario de la foto",
-    #   "access_token" => token
-    # )
-    # puts res.body
-    # res.body
+    begin
+      res = @page_graph.put_picture(rails_blob_url(@post.imagen), caption: @post.texto)
+      # TODO: Salvar este error, por algun motivo no esta andando
+    rescue Koala::Facebook::ClientError => e
+      res = e.error_user_msg
+    end
+    # res = @page_graph.put_picture("https://www.facebook.com/images/fb_icon_325x325.png", caption: @post.texto)
+    respond_to do |format|
+      format.html { redirect_to @post, notice: res.to_s }
+      format.json { render json: res }
+    end
   end
 
   # GET post_imagen/:id

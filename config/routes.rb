@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     end
 
     post "/post_test/:id", to: "posts#post_test"
+    post "/post_imagen/:id", to: "posts#imagen_url"
     resources :redes
 
     root to: "clientes#index" # , as: :authenticated_root
