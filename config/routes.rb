@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     resources :redes
 
     root to: "clientes#index" # , as: :authenticated_root
-    mount Sidekiq::Web => "/sidekiq" # monitoring console
+    # mount Sidekiq::Web => "/sidekiq" # monitoring console
   end
 
   # Si no esta autenicado
