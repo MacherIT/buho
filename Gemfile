@@ -38,6 +38,10 @@ end
 #   gem "postmark-rails"
 # end
 
+group :production do
+  gem "aws-sdk-s3"
+end
+
 group :development do
   gem "annotate", ">= 2.5.0"
   gem "awesome_print"
