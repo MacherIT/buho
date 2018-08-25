@@ -27,9 +27,9 @@ gem "haml"
 gem "devise"
 gem "multipart-post"
 gem "koala"
+gem "factory_bot_rails"
 
 group :test, :development do
-  gem "factory_bot_rails"
   gem "faker"
   gem 'byebug'
 end
