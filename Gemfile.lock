@@ -96,7 +96,6 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
-    connection_pool (2.2.2)
     crass (1.0.4)
     debug_inspector (0.0.3)
     devise (4.4.3)
@@ -217,12 +216,6 @@ GEM
     pg (1.0.0)
     pgcli-rails (0.3.0)
       railties (>= 4.2.0)
-    postmark (1.11.0)
-      json
-      rake
-    postmark-rails (0.16.0)
-      actionmailer (>= 3.0.0)
-      postmark (~> 1.11.0)
     powerpack (0.1.1)
     pry (0.11.3)
       coderay (~> 1.1.0)
@@ -231,8 +224,6 @@ GEM
     puma (3.11.4)
     rack (2.0.5)
     rack-livereload (0.3.17)
-      rack
-    rack-protection (2.0.2)
       rack
     rack-test (1.0.0)
       rack (>= 1.0, < 3)
@@ -265,7 +256,6 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    redis (4.0.1)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -298,11 +288,6 @@ GEM
     shoulda-context (1.2.2)
     shoulda-matchers (3.1.2)
       activesupport (>= 4.0.0)
-    sidekiq (5.1.3)
-      concurrent-ruby (~> 1.0)
-      connection_pool (~> 2.2, >= 2.2.0)
-      rack-protection (>= 1.5.0)
-      redis (>= 3.3.5, < 5)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -383,11 +368,9 @@ DEPENDENCIES
   marco-polo
   minitest-ci (>= 3.3.0)
   mocha (>= 1.4.0)
-  multipart-post
   overcommit (>= 0.37.0)
   pg (>= 0.18)
   pgcli-rails
-  postmark-rails
   puma (~> 3.11)
   rack-livereload
   rails (~> 5.2.0)
@@ -396,7 +379,6 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-context
   shoulda-matchers (>= 3.0.1)
-  sidekiq (>= 4.2.0)
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
