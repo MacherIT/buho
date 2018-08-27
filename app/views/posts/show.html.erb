@@ -1,5 +1,6 @@
 <% provide(:title) do %>
-  Post #<%= @post.id %>
+  Post #<%= @post.id %> -
+  <%= @post.titulo %>
 <% end %>
 
 
@@ -27,7 +28,7 @@
     </tr>
     <tr>
       <th class="col-sm-2">Publicado</th>
-      <td><%= @post.publicado %></td>
+      <td><%= @post.publicado?? 'Sí' : "No" %></td>
     </tr>
     <tr>
       <th class="col-sm-2">Red</th>

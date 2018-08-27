@@ -1,5 +1,10 @@
 # Buho
 
+En producción en: https://macher-buho.herokuapp.com/
+
+La publicación de los posts a FB funciona en producción solamente, porque se requiere una URL a la que FB pueda acceder.
+
+
 ## Comenzar a usar el proyecto
 1) Copiar el archivo _.env.example_ a _.env_ y cambiar el SECRET_KEY_BASE por el hash generado localmente por el comando ```rake secret```.
 
@@ -7,6 +12,10 @@
 
 ## Login
 Hay un usuario creado, con el email _hola@macherit.com_ con password _123456_.
+
+## Producción
+Para postear a producción: ```git push heroku master```.
+
 
 ## Troubleshooting
 
