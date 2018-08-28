@@ -31,6 +31,10 @@
       <td><%= @post.publicado?? 'Sí' : "No" %></td>
     </tr>
     <tr>
+      <th class="col-sm-2">Aprobado</th>
+      <td><%= @post.approved? ? 'Sí' : "No" %></td>
+    </tr>
+    <tr>
       <th class="col-sm-2">Red</th>
       <td><%= @post.red.nombre %></td>
     </tr>
@@ -38,9 +42,9 @@
 </table>
 
 <p>
-  <%= button_to "/post_test/#{@post.id}", class: "btn btn-xs btn-success" do %>
-    <%= fa_icon("share", text: "Postear") %>
-  <% end %>
+  <%#= button_to "/post_test/#{@post.id}", class: "btn btn-xs btn-success" do %>
+    <%#= fa_icon("share", text: "Postear") %>
+  <%# end %>
   <%= link_to "Editar", edit_post_path(@post), class: "btn btn-primary" %>
   <%= link_to "Atrás", posts_path, class: "btn btn-link" %>
 </p>
