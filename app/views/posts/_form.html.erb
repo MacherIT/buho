@@ -5,8 +5,16 @@
   <%= f.datetime_select :hora_pub %>
   <%= f.text_field :titulo %>
   <%= f.text_field :texto %>
-  <%= f.number_field :publicado %>
+  <%= f.number_field :publicado, min: 0, max: 1 %>
   <%= f.text_field :red_id %>
+  <%#= f.file_field :imagen, label: "Subir imagen para el post" %>
+  <% @redes.each do |red| %>
+    <div class="selector-redes" onclick="alert('hola')">
+      <a href="/">
+      <%= red.nombre %>
+      </a>
+    </div>
+  <% end %>
   <%= f.check_box :approved, label: "Aprobado" %>
 
   <%= f.primary %>

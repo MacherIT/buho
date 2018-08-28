@@ -12,12 +12,15 @@ require "net/http"
 require "open-uri"
 # require "net/http/post/multi+part"
 
+
 class ClientesController < ApplicationController
   before_action :set_cliente, only: %i[show edit update destroy]
 
   # GET /clientes
   def index
     @clientes = Cliente.all
+    @user = current_user.id
+    # @user = User.find(2).email
     # @test_result = post_test
   end
 
@@ -29,6 +32,7 @@ class ClientesController < ApplicationController
   # GET /clientes/new
   def new
     @cliente = Cliente.new
+
   end
 
   # GET /clientes/1/edit
