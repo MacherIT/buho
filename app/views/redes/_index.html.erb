@@ -2,6 +2,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th></th>
       <th>Nombre display</th>
 
       <th>Token</th>
@@ -15,6 +16,10 @@
   <tbody>
     <% @redes.each do |red| %>
       <tr>
+        <td>
+          <% imagen=red.tipo==0?"https://www.facebook.com/images/fb_icon_325x325.png":"https://instagram-brand.com/wp-content/uploads/2016/11/app-icon2.png" %>
+          <%= image_tag(imagen, :alt => "rss feed") %>
+        </td>
         <td>
           <%= link_to red do %>
             <%= red.nombre_display %>
