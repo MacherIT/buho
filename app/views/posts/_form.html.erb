@@ -7,8 +7,8 @@
   <%= f.text_field :texto %>
   <%= f.number_field :publicado %>
   <%= f.text_field :red_id %>
-  <%= f.label 'Aprobado' %>
-  <%= f.check_box :approved %>
+  <%#= f.label 'Aprobado' %>
+  <%= f.check_box :approved, label: "Aprobado" %>
 
   <%= f.primary %>
   <%= link_to "Atrás", posts_path, class: "btn btn-link" %>

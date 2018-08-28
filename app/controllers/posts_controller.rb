@@ -25,16 +25,17 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy post_test]
 
   def post_test
-    return unless @post.imagen.attached? and @post.imagen.approved?
+    return unless @post.approved?
     @token = @post.red.token
     @page_graph = Koala::Facebook::API.new(@token)
     begin
-      res = @page_graph.put_picture(rails_blob_url(@post.imagen), caption: @post.texto)
+      res = @page_graph.put_picture("https://www.facebook.com/images/fb_icon_325x325.png", caption: @post.texto)
       # TODO: Salvar este error, por algun motivo no esta andando
     rescue Koala::Facebook::ClientError => e
       res = e.error_user_msg
     end
     # res = @page_graph.put_picture("https://www.facebook.com/images/fb_icon_325x325.png", caption: @post.texto)
+    # res = @page_graph.put_picture(rails_blob_url(@post.imagen), caption: @post.texto)
     respond_to do |format|
       format.html { redirect_to @post, notice: res.to_s }
       format.json { render json: res }
