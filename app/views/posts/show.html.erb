@@ -26,7 +26,7 @@
           <p>
             <strong>Imagen:</strong>
             <br>
-            <%= image_tag @post.imagen %>
+            <%= image_tag @post.imagen , class:'icono-social'%>
           </p>
         <% end %>
       </td>
@@ -48,9 +48,11 @@
 </table>
 
 <p>
-  <%#= button_to "/post_test/#{@post.id}", class: "btn btn-xs btn-success" do %>
-    <%#= fa_icon("share", text: "Postear") %>
-  <%# end %>
+  <% if @post.approved? %>
+    <%= button_to "/post_test/#{@post.id}", class: "btn btn-xs btn-success" do %>
+      <%= fa_icon("share", text: "Postear") %>
+    <% end %>
+  <% end %>
   <%= link_to "Editar", edit_post_path(@post), class: "btn btn-primary" %>
   <%= link_to "Atrás", :back, class: "btn btn-link" %>
 </p>

@@ -24,4 +24,9 @@
 class Post < ApplicationRecord
   belongs_to :red
   has_one_attached :imagen
+
+  scope :of_red, -> (rid) {
+    where(red_id: rid)
+  }
+
 end

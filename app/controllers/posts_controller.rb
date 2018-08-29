@@ -22,14 +22,15 @@
 #
 
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[show edit update destroy post_test]
+  before_action :set_post, only: %i[show edit update destroy post_test by_cliente_by_red test]
 
   def post_test
-    return unless @post.approved?  and @post.imagen.attached?
+    return unless @post.approved? && @post.imagen.attached?
     @token = @post.red.token
     @page_graph = Koala::Facebook::API.new(@token)
+
     begin
-      res = @page_graph.put_picture("https://www.facebook.com/images/fb_icon_325x325.png", caption: @post.texto)
+      res = @page_graph.put_picture(@post.imagen, caption: @post.texto)
       # TODO: Salvar este error, por algun motivo no esta andando
     rescue Koala::Facebook::ClientError => e
       res = e.error_user_msg
@@ -52,9 +53,22 @@ class PostsController < ApplicationController
     end
   end
 
+  # GET /clientes/:cliente_id/redes/:red_id/posts
+  def by_cliente_by_red
+    @posts = Post.all
+    # @clienteid = params[:cliente_id]
+    # @redid= params[:red_id]
+  end
+
   # GET /posts
   def index
-    @posts = Post.all
+    @posts = Post.of_red(params[:red_id])
+    # @clienteid = params[:cliente_id]
+    # @redid= params[:red_id]
+  end
+
+  def test
+    render 'hola'
   end
 
   # GET /posts/1

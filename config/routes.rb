@@ -9,11 +9,13 @@ Rails.application.routes.draw do
         resources :posts
       end
     end
-
-    post "/post_test/:id", to: "posts#post_test"
-    post "/post_imagen/:id", to: "posts#imagen_url"
     resources :redes
 
+    get "/posts", to: "posts#index"
+    get "/clientes/:cliente_id/redes/:red_id/posts", to: "posts#by_cliente_by_red"
+    post "/post_test/:id", to: "posts#post_test"
+    post "/post_imagen/:id", to: "posts#imagen_url"
+    get "/posts/test", to: "posts#test"
     root to: "clientes#index" # , as: :authenticated_root
     # mount Sidekiq::Web => "/sidekiq" # monitoring console
   end
