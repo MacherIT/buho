@@ -25,7 +25,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy post_test]
 
   def post_test
-    return unless @post.approved?
+    return unless @post.approved?  and @post.imagen.attached?
     @token = @post.red.token
     @page_graph = Koala::Facebook::API.new(@token)
     begin
@@ -69,6 +69,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    @redes = Red.all
   end
 
   # POST /posts
@@ -106,6 +107,6 @@ class PostsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def post_params
-    params.require(:post).permit(:hora_pub, :titulo, :texto, :publicado, :red_id, :approved)
+    params.require(:post).permit(:hora_pub, :titulo, :texto, :publicado, :red_id, :approved, :imagen)
   end
 end

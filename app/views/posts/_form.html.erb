@@ -1,3 +1,15 @@
+<script !src="">
+    var clickOnInput = function () {
+      var contenedorSelector = document.querySelector('.contenedor-selector');
+      contenedorSelector.classList.toggle('ocultar-elemento');
+    };
+    //
+    var elegirRed = function (element) {
+        document.getElementById('redid').value=element.children["0"].innerText;
+    }
+    //
+    setTimeout(()=>{clickOnInput();},1000);
+</script>
 <%= bootstrap_form_for(@post) do |f| %>
 
   <%= f.alert_message "Han ocurrido los siguientes problemas:" %>
@@ -6,15 +18,21 @@
   <%= f.text_field :titulo %>
   <%= f.text_field :texto %>
   <%= f.number_field :publicado, min: 0, max: 1 %>
-  <%= f.text_field :red_id %>
-  <%#= f.file_field :imagen, label: "Subir imagen para el post" %>
-  <% @redes.each do |red| %>
-    <div class="selector-redes" onclick="alert('hola')">
-      <a href="/">
-      <%= red.nombre %>
-      </a>
-    </div>
-  <% end %>
+  <%= f.file_field :imagen, label: "Subir imagen para el post" %>
+  <%= f.text_field :red_id,id:'redid', onclick:'clickOnInput()' %>
+  <div class="contenedor-selector">
+    <% @redes.each do |red| %>
+      <div class="selector-redes" onclick='clickOnInput()'>
+
+         <div onclick="elegirRed(this)" >
+
+           <%= red.nombre %>
+           <span><%= red.id %></span>
+         </div>
+
+      </div>
+    <% end %>
+  </div>
   <%= f.check_box :approved, label: "Aprobado" %>
 
   <%= f.primary %>

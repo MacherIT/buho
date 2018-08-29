@@ -22,12 +22,15 @@
       <th class="col-sm-2">Imagen</th>
 
       <td>
-        <%#= image_tag @post.imagen %>
+        <% if @post.imagen.attached? %>
+          <p>
+            <strong>Imagen:</strong>
+            <br>
+            <%= image_tag @post.imagen %>
+          </p>
+        <% end %>
       </td>
         <!-- TODO: Usar variants -->
-
-
-
     </tr>
     <tr>
       <th class="col-sm-2">Publicado</th>
