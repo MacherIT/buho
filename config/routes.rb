@@ -4,18 +4,16 @@ Rails.application.routes.draw do
 
   # Solo para usuarios autenticados (todo el sitio)
   authenticated :user do
+    get "/clientes/:cliente_id/redes/:red_id/posts", to: "posts#by_red"
+    get "/posts", to: "posts#index"
     resources :clientes do
       resources :redes do
         resources :posts
       end
     end
     resources :redes
-
-    get "/posts", to: "posts#index"
-    get "/clientes/:cliente_id/redes/:red_id/posts", to: "posts#by_cliente_by_red"
     post "/post_test/:id", to: "posts#post_test"
     post "/post_imagen/:id", to: "posts#imagen_url"
-    get "/posts/test", to: "posts#test"
     root to: "clientes#index" # , as: :authenticated_root
     # mount Sidekiq::Web => "/sidekiq" # monitoring console
   end

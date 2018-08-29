@@ -22,7 +22,7 @@
 #
 
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[show edit update destroy post_test by_cliente_by_red test]
+  before_action :set_post, only: %i[show edit update destroy post_test]
 
   def post_test
     return unless @post.approved? && @post.imagen.attached?
@@ -54,21 +54,18 @@ class PostsController < ApplicationController
   end
 
   # GET /clientes/:cliente_id/redes/:red_id/posts
-  def by_cliente_by_red
-    @posts = Post.all
+  def by_red
+    @posts = Post.of_red(params[:red_id])
     # @clienteid = params[:cliente_id]
     # @redid= params[:red_id]
   end
 
   # GET /posts
   def index
-    @posts = Post.of_red(params[:red_id])
+    # @posts = Post.of_red(params[:red_id])
+    @posts = Post.all
     # @clienteid = params[:cliente_id]
     # @redid= params[:red_id]
-  end
-
-  def test
-    render 'hola'
   end
 
   # GET /posts/1
@@ -89,7 +86,6 @@ class PostsController < ApplicationController
   # POST /posts
   def create
     @post = Post.new(post_params)
-
     if @post.save
       redirect_to @post, notice: "Post fue creado satisfactoriamente."
     else

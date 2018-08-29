@@ -25,7 +25,7 @@ class RedesController < ApplicationController
 
   # GET /redes
   def index
-    @redes = Red.all
+    @redes = Red.all.order(:cliente_id)
   end
 
   # GET /redes/1
