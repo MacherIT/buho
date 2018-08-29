@@ -34,3 +34,5 @@
 /config/database.yml
 /config/master.key
 /.env
+
+/.idea
