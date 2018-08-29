@@ -30,7 +30,7 @@ class PostsController < ApplicationController
     @page_graph = Koala::Facebook::API.new(@token)
 
     begin
-      res = @page_graph.put_picture(@post.imagen, caption: @post.texto)
+      res = @page_graph.put_picture(rails_blob_url(@post.imagen), caption: @post.texto)
       # TODO: Salvar este error, por algun motivo no esta andando
     rescue Koala::Facebook::ClientError => e
       res = e.error_user_msg
