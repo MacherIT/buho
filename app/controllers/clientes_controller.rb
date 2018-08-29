@@ -12,7 +12,6 @@ require "net/http"
 require "open-uri"
 # require "net/http/post/multi+part"
 
-
 class ClientesController < ApplicationController
   before_action :set_cliente, only: %i[show edit update destroy]
 
