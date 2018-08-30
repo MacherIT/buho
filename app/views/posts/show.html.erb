@@ -30,7 +30,7 @@
           </p>
         <% end %>
       </td>
-        <!-- TODO: Usar variants -->
+        <%# TODO: Usar variants %>
     </tr>
     <tr>
       <th class="col-sm-2">Publicado</th>
@@ -48,11 +48,11 @@
 </table>
 
 <p>
-  <% if @post.approved? %>
-    <%= button_to "/post_test/#{@post.id}", class: "btn btn-xs btn-success" do %>
-      <%= fa_icon("share", text: "Postear") %>
-    <% end %>
-  <% end %>
+  <%# if @post.approved? %>
+    <%#= button_to "/post_test/#{@post.id}", class: "btn btn-xs btn-success" do %>
+      <%#= fa_icon("share", text: "Postear") %>
+    <%# end %>
+  <%# end %>
   <%= link_to "Editar", edit_post_path(@post), class: "btn btn-primary" %>
   <%= link_to "Atrás", :back, class: "btn btn-link" %>
 </p>

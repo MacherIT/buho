@@ -31,19 +31,7 @@
     width: 200px;
   }
 }
-.contenedor-selector{
-  height: 200px;
-  overflow-y: auto;
-  @include ease-transition();
-  *{
-    cursor:pointer;
-  }
-  .selector-redes{
+.contenedor-selector .selector-redes{
     padding: 3px 6px;
     border-bottom: 1px solid #ccc;
-    @include ease-transition();
-    &:hover{
-      text-shadow: 1px 1px #ccc;
-    }
   }
-}

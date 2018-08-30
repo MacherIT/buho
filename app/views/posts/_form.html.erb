@@ -7,14 +7,18 @@
   <%= f.file_field :imagen, label: "Subir imagen para el post" %>
   <%= f.text_field :red_id,id:'redid' %>
   <div class="contenedor-selector">
+    <h4>Referencias de red:</h4>
+    <ul>
+
     <% @redes.each do |red| %>
-      <div class="selector-redes" >
+      <li class="selector-redes" >
          <div >
+           <span><%= red.id %> - </span>
            <%= red.nombre %>
-           <span><%= red.id %></span>
          </div>
-      </div>
+      </li>
     <% end %>
+    </ul>
   </div>
   <%= f.check_box :approved, label: "Aprobado" %>
   <%= f.primary %>
