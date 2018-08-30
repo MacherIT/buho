@@ -56,16 +56,12 @@ class PostsController < ApplicationController
   # GET /clientes/:cliente_id/redes/:red_id/posts
   def by_red
     @posts = Post.of_red(params[:red_id])
-    # @clienteid = params[:cliente_id]
-    # @redid= params[:red_id]
+    render :index
   end
 
   # GET /posts
   def index
-    # @posts = Post.of_red(params[:red_id])
     @posts = Post.all
-    # @clienteid = params[:cliente_id]
-    # @redid= params[:red_id]
   end
 
   # GET /posts/1

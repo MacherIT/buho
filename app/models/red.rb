@@ -27,4 +27,7 @@ class Red < ApplicationRecord
   def tipo_cast
     REDES_TIPOS.select { |_k, v| v == tipo }.keys.first.to_s.capitalize
   end
+  scope :of_cliente, ->(cid) {
+    where(cliente_id: cid)
+  }
 end

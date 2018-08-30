@@ -24,7 +24,13 @@
   overflow: hidden;
 
 }
-
+#token{
+  width: 400px;
+  overflow-x: auto;
+  @media all and(max-width: 500px){
+    width: 200px;
+  }
+}
 .contenedor-selector{
   height: 200px;
   overflow-y: auto;

@@ -1,7 +1,5 @@
 <%= bootstrap_form_for(@post) do |f| %>
-
   <%= f.alert_message "Han ocurrido los siguientes problemas:" %>
-
   <%= f.datetime_select :hora_pub %>
   <%= f.text_field :titulo %>
   <%= f.text_field :texto %>
@@ -11,19 +9,14 @@
   <div class="contenedor-selector">
     <% @redes.each do |red| %>
       <div class="selector-redes" >
-
          <div >
-
            <%= red.nombre %>
            <span><%= red.id %></span>
          </div>
-
       </div>
     <% end %>
   </div>
   <%= f.check_box :approved, label: "Aprobado" %>
-
   <%= f.primary %>
   <%= link_to "Atrás", posts_path, class: "btn btn-link" %>
-
 <% end %>
