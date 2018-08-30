@@ -2,10 +2,12 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Tipo</th>
+      <th></th>
+      <th>Nombre display</th>
+
       <th>Token</th>
       <th>Nombre</th>
-      <th>Nombre display</th>
+      <th>Tipo</th>
       <th>Cliente</th>
       <th></th>
     </tr>
@@ -14,10 +16,21 @@
   <tbody>
     <% @redes.each do |red| %>
       <tr>
-        <td><%= red.tipo_cast %></td>
+        <td>
+          <% imagen=red.tipo==0?"https://www.facebook.com/images/fb_icon_325x325.png":"https://instagram-brand.com/wp-content/uploads/2016/11/app-icon2.png" %>
+          <%= image_tag(imagen, :alt => "rss feed", class:'icono-social') %>
+        </td>
+        <td>
+          <%= link_to cliente_red_posts_path(red.cliente, red) do %>
+            <%= red.nombre_display %>
+
+          <% end %>
+        </td>
         <td><%= red.token.blank?? '---' : red.token[0..10] + '...' %></td>
         <td><%= red.nombre %></td>
-        <td><%= red.nombre_display %></td>
+        <td>
+          <%= red.tipo_cast %>
+        </td>
         <td><%= red.cliente.nombre %></td>
         <td>
           <div class="btn-group">

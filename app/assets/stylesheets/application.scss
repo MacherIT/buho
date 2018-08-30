@@ -3,3 +3,35 @@
 //= require font-awesome
 //= require_tree .
 //= require_self
+@mixin ease-transition($duration: 150ms) {
+  -webkit-transition: all $duration ease;
+  -moz-transition: all $duration ease;
+  -ms-transition: all $duration ease;
+  -o-transition: all $duration ease;
+  transition: all $duration ease;
+}
+
+.icono-social{
+  width: 20px;
+  height: auto;
+}
+.imagen{
+  width: auto;
+  height: 100px;
+}
+.ocultar-elemento{
+  height: 0!important;
+  overflow: hidden;
+
+}
+#token{
+  width: 400px;
+  overflow-x: auto;
+  @media all and(max-width: 500px){
+    width: 200px;
+  }
+}
+.contenedor-selector .selector-redes{
+    padding: 3px 6px;
+    border-bottom: 1px solid #ccc;
+  }

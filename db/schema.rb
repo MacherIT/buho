@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_24_173523) do
+ActiveRecord::Schema.define(version: 2018_08_27_192804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2018_08_24_173523) do
     t.bigint "red_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "approved", default: false
     t.index ["red_id"], name: "index_posts_on_red_id"
   end
 
@@ -62,17 +63,6 @@ ActiveRecord::Schema.define(version: 2018_08_24_173523) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cliente_id"], name: "index_redes_on_cliente_id"
-  end
-
-  create_table "reds", force: :cascade do |t|
-    t.integer "tipo", default: 0, null: false
-    t.string "token"
-    t.string "nombre", default: "", null: false
-    t.string "nombre_display"
-    t.bigint "cliente_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cliente_id"], name: "index_reds_on_cliente_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -94,5 +84,4 @@ ActiveRecord::Schema.define(version: 2018_08_24_173523) do
 
   add_foreign_key "posts", "redes"
   add_foreign_key "redes", "clientes"
-  add_foreign_key "reds", "clientes"
 end

@@ -3,10 +3,11 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Hora pub</th>
       <th>Titulo</th>
+      <th>Hora pub</th>
       <th>Texto</th>
       <th>Publicado</th>
+      <th>Aprobado</th>
       <th>Red</th>
       <th></th>
     </tr>
@@ -15,16 +16,21 @@
   <tbody>
     <% @posts.each do |post| %>
       <tr>
+        <td>
+          <%= link_to post do %>
+          <%= post.titulo %>
+          <% end %>
+        </td>
         <td><%= post.hora_pub %></td>
-        <td><%= post.titulo %></td>
         <td><%= post.texto %></td>
         <td><%= post.publicado %></td>
+        <td><%= post.approved ? 'Sí': "No" %></td>
         <td><%= post.red.nombre %></td>
         <td>
           <div class="btn-group">
-            <%= button_to "/post_test/#{post.id}", class: "btn btn-xs btn-success" do %>
-              <%= fa_icon("share", text: "Postear") %>
-            <% end %>
+            <%#= button_to "/edit/#{post.id}", class: "btn btn-xs btn-success" do %>
+              <%#= fa_icon("share", text: "Postear") %>
+            <%# end %>
             <%= link_to post, class: "btn btn-xs btn-default" do %>
               <%= fa_icon("eye", text: "Ver") %>
             <% end %>

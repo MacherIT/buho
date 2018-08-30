@@ -2,6 +2,7 @@
 #
 # Table name: posts
 #
+#  approved   :boolean          default(FALSE)
 #  created_at :datetime         not null
 #  hora_pub   :datetime         not null
 #  id         :bigint(8)        not null, primary key
@@ -24,9 +25,10 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy post_test]
 
   def post_test
-    return unless @post.imagen.attached?
+    return unless @post.approved? && @post.imagen.attached?
     @token = @post.red.token
     @page_graph = Koala::Facebook::API.new(@token)
+
     begin
       res = @page_graph.put_picture(rails_blob_url(@post.imagen), caption: @post.texto)
       # TODO: Salvar este error, por algun motivo no esta andando
@@ -34,6 +36,7 @@ class PostsController < ApplicationController
       res = e.error_user_msg
     end
     # res = @page_graph.put_picture("https://www.facebook.com/images/fb_icon_325x325.png", caption: @post.texto)
+    # res = @page_graph.put_picture(rails_blob_url(@post.imagen), caption: @post.texto)
     respond_to do |format|
       format.html { redirect_to @post, notice: res.to_s }
       format.json { render json: res }
@@ -50,6 +53,12 @@ class PostsController < ApplicationController
     end
   end
 
+  # GET /clientes/:cliente_id/redes/:red_id/posts
+  def by_red
+    @posts = Post.of_red(params[:red_id])
+    render :index
+  end
+
   # GET /posts
   def index
     @posts = Post.all
@@ -62,16 +71,17 @@ class PostsController < ApplicationController
   # GET /posts/new
   def new
     @post = Post.new
+    @redes = Red.all
   end
 
   # GET /posts/1/edit
   def edit
+    @redes = Red.all
   end
 
   # POST /posts
   def create
     @post = Post.new(post_params)
-
     if @post.save
       redirect_to @post, notice: "Post fue creado satisfactoriamente."
     else
@@ -103,6 +113,6 @@ class PostsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def post_params
-    params.require(:post).permit(:hora_pub, :titulo, :texto, :publicado, :red_id)
+    params.require(:post).permit(:hora_pub, :titulo, :texto, :publicado, :red_id, :approved, :imagen)
   end
 end

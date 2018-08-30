@@ -18,6 +18,8 @@ class ClientesController < ApplicationController
   # GET /clientes
   def index
     @clientes = Cliente.all
+    @user = current_user.id
+    # @user = User.find(2).email
     # @test_result = post_test
   end
 
@@ -29,6 +31,7 @@ class ClientesController < ApplicationController
   # GET /clientes/new
   def new
     @cliente = Cliente.new
+
   end
 
   # GET /clientes/1/edit

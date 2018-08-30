@@ -1,14 +1,26 @@
 <%= bootstrap_form_for(@post) do |f| %>
-
   <%= f.alert_message "Han ocurrido los siguientes problemas:" %>
-
   <%= f.datetime_select :hora_pub %>
   <%= f.text_field :titulo %>
   <%= f.text_field :texto %>
-  <%= f.number_field :publicado %>
-  <%= f.text_field :red_id %>
+  <%= f.number_field :publicado, min: 0, max: 1 %>
+  <%= f.file_field :imagen, label: "Subir imagen para el post" %>
+  <%= f.text_field :red_id,id:'redid' %>
+  <div class="contenedor-selector">
+    <h4>Referencias de red:</h4>
+    <ul>
 
+    <% @redes.each do |red| %>
+      <li class="selector-redes" >
+         <div >
+           <span><%= red.id %> - </span>
+           <%= red.nombre %>
+         </div>
+      </li>
+    <% end %>
+    </ul>
+  </div>
+  <%= f.check_box :approved, label: "Aprobado" %>
   <%= f.primary %>
   <%= link_to "Atrás", posts_path, class: "btn btn-link" %>
-
 <% end %>
