@@ -21,7 +21,7 @@
           <%= image_tag(imagen, :alt => "rss feed", class:'icono-social') %>
         </td>
         <td>
-          <%= link_to red do %>
+          <%= link_to cliente_red_posts_path(red.cliente, red) do %>
             <%= red.nombre_display %>
 
           <% end %>
