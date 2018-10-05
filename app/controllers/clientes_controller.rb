@@ -19,6 +19,13 @@ class ClientesController < ApplicationController
   def index
     @clientes = Cliente.all
     @user = current_user.id
+
+    app_secret = "c7166257539efd50cf8f523de38618cd"
+    app_id = "979922088853971"
+
+    # @oauth = Koala::Facebook::OAuth.new(app_id, app_secret, 'https://127.0.0.1:3000')
+    # @urlforauth = @oauth.url_for_oauth_code(permissions: "publish_actions")
+    # redirect_to(@oauth.url_for_oauth_code)
     # @user = User.find(2).email
     # @test_result = post_test
   end
@@ -31,7 +38,6 @@ class ClientesController < ApplicationController
   # GET /clientes/new
   def new
     @cliente = Cliente.new
-
   end
 
   # GET /clientes/1/edit
