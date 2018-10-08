@@ -32,6 +32,8 @@ gem 'mini_magick'
 
 gem 'webpacker'
 
+gem 'devise-jwt'
+
 gem 'ruby-filemagic'
 
 gem 'jbuilder'
