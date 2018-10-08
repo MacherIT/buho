@@ -1,0 +1,83 @@
+* {
+  box-sizing: border-box;
+}
+
+@mixin ease-transition($duration: 150ms) {
+  -webkit-transition: all $duration ease;
+  -moz-transition: all $duration ease;
+  -ms-transition: all $duration ease;
+  -o-transition: all $duration ease;
+  transition: all $duration ease;
+}
+
+@mixin sombra($sombra) {
+  -webkit-box-shadow: $sombra;
+  box-shadow: $sombra;
+}
+
+@mixin minmaxwh($size) {
+  width: $size !important;
+  min-width: $size !important;
+  max-width: $size !important;
+  height: $size !important;
+  min-height: $size !important;
+  max-height: $size !important;
+}
+
+@mixin default-form {
+  input[aria-required="true"],
+  select[aria-required="true"],
+  textarea[aria-required="true"],
+  input.required,
+  select.required,
+  textarea.required {
+    -webkit-box-shadow: inset -5px 0 0 0 #fcc !important;
+    box-shadow: inset -5px 0 0 0 #fcc !important;
+  }
+  input[aria-invalid="true"],
+  select[aria-invalid="true"],
+  textarea[aria-invalid="true"] {
+    border-bottom: 1px solid #f88 !important;
+  }
+
+  margin: 15px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    input,
+    textarea,
+    select {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 6px;
+      width: 100%;
+      margin-bottom: 10px;
+      &:not(:disabled) {
+        background-color: #fff;
+      }
+      &[type="submit"] {
+        margin: 0;
+        width: 100%;
+        background-color: #eee;
+        border: 0;
+        &:not(:disabled) {
+          cursor: pointer;
+          &:hover {
+            background-color: #999;
+          }
+        }
+      }
+    }
+    .loading {
+      display: block;
+      margin: 15px 0;
+    }
+  }
+}

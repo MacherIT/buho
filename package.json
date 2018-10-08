@@ -1,5 +1,19 @@
 {
   "name": "buho",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@rails/webpacker": "3.5",
+    "moment": "^2.22.2",
+    "pug": "^2.0.3",
+    "sass-loader": "^7.1.0",
+    "vee-validate": "^2.1.0-beta.9",
+    "vue": "^2.5.17",
+    "vue-loader": "14.2.2",
+    "vue-resource": "^1.5.1",
+    "vue-template-compiler": "^2.5.17",
+    "vue-turbolinks": "^2.0.3"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  }
 }

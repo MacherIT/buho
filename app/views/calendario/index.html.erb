@@ -1,0 +1,14 @@
+<% provide(:title, "Calendario#index") %>
+
+<%= javascript_pack_tag 'calendario' %>
+<%= stylesheet_pack_tag 'calendario' %>
+
+<%
+@props = {
+  posts: @posts,
+  redes: @redes,
+  meses: @meses
+}.to_json
+%>
+
+<div id="contenedor-calendario" data="<%= @props %>"></div>

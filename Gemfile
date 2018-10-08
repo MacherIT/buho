@@ -30,6 +30,8 @@ gem "koala"
 gem "factory_bot_rails"
 gem 'mini_magick'
 
+gem 'webpacker'
+
 group :test, :development do
   gem "faker"
   gem 'byebug'
@@ -64,7 +66,7 @@ group :development do
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "terminal-notifier", require: false
   gem "terminal-notifier-guard", require: false
-  gem "xray-rails", ">= 0.1.18"
+  # gem "xray-rails", ">= 0.1.18"
 end
 
 group :test do

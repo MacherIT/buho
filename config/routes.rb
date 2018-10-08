@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'calendario/index'
   resources :posts
   devise_for :users
 
