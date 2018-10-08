@@ -22,6 +22,8 @@
 #
 
 class PostsController < ApplicationController
+  skip_before_action :verify_authenticity_token, except: [:update, :destroy]
+
   before_action :set_post, only: %i[show edit update destroy post_test]
 
   def post_test
@@ -70,7 +72,9 @@ class PostsController < ApplicationController
   # GET /posts
   def index
     @posts = Post.all
-
+  end
+  def index_json
+    render json: Post.all.as_json
   end
 
   # GET /posts/1
@@ -94,12 +98,19 @@ class PostsController < ApplicationController
     @token = @post.red.token
     @page_graph = Koala::Facebook::API.new(@token)
     if @post.save
-      #"https://macher-buho.herokuapp.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBDQT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--84113fc3aaef04d3ef01c725d781a176b690f759/owl.png"
-      # res = @page_graph.put_picture(File.new("app/assets/images/macher-portada-linkedin.jpg"), {published:false,scheduled_publish_time: @post.hora_pub.to_time.to_i})
-      # res = @page_graph.put_picture(@post.imagen, {message:@post.texto,published:false,scheduled_publish_time: @post.hora_pub.to_time.to_i})
-      # res = @page_graph.put_wall_post(@post.texto, {published:false,scheduled_publish_time: @post.hora_pub.to_time.to_i})
-      res = @page_graph.put_wall_post(@post.texto, {published:false,scheduled_publish_time: (Time.now + 15.minutes).to_i})
-      redirect_to @post, notice: "Post fue creado satisfactoriamente."
+      res = @page_graph.put_picture(
+        File.new(@post.img_on_disk),
+        FileMagic.new(FileMagic::MAGIC_MIME).file(@post.img_on_disk),
+        {
+          message:@post.texto,
+          published:false,
+          scheduled_publish_time: @post.hora_pub.to_time.to_i
+        }
+      )
+      if(res)
+        
+        render json: {message: "Post fue creado satisfactoriamente."}
+      end
     else
       render :new
     end

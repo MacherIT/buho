@@ -28,4 +28,8 @@ class Post < ApplicationRecord
   scope :of_red, -> (rid) {
     where(red_id: rid)
   }
+
+  def img_on_disk
+    ActiveStorage::Blob.service.send(:path_for, imagen.key)
+  end
 end

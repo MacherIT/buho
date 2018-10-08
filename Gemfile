@@ -32,6 +32,10 @@ gem 'mini_magick'
 
 gem 'webpacker'
 
+gem 'ruby-filemagic'
+
+gem 'jbuilder'
+
 group :test, :development do
   gem "faker"
   gem 'byebug'

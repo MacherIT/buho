@@ -25,9 +25,9 @@
                   span {{moment(post.hora_pub).format('HH:mm')}}
                 .texto
                   span {{post.titulo}}
-    .make-new-post(@click="toggleNewPost()")
+    .make-new-post(@click="showmeNewPost")
       span +
-    NuevoPost(v-if="showNewPost", :redes="redes", :toggle-new-post="toggleNewPost")
+    NuevoPost(v-if="showNewPost", :redes="redes", :close-new-post="closeNewPost")
 </template>
 
 <script>
@@ -44,24 +44,22 @@ export default {
     return {
       mesActivo: new Date().getMonth(),
       moment,
-      showNewPost: true
+      showNewPost: false,
+      loadedPosts: JSON.parse(JSON.stringify(this.posts))
     };
   },
   computed: {
     months() {
-      const mesActivo = this.mesActivo;
-      return this.meses.map((mes, index) => {
-        if (index === mesActivo) {
-          this.posts.map(post => {
-            if (mes.dias[moment(post["hora_pub"]).format("YYYY-M-D")]) {
-              mes.dias[moment(post["hora_pub"]).format("YYYY-M-D")].posts.push(
-                post
-              );
-            }
-          });
+      let loadedMonths = JSON.parse(JSON.stringify(this.meses));
+      let mes = loadedMonths[this.mesActivo];
+      this.loadedPosts.map(post => {
+        if (mes.dias[moment(post["hora_pub"]).format("YYYY-M-D")]) {
+          mes.dias[moment(post["hora_pub"]).format("YYYY-M-D")].posts.push(
+            post
+          );
         }
-        return mes;
       });
+      return loadedMonths;
     }
   },
   methods: {
@@ -70,8 +68,22 @@ export default {
         this.mesActivo = index;
       }
     },
-    toggleNewPost() {
-      this.showNewPost = this.showNewPost ? false : true;
+    showmeNewPost() {
+      this.showNewPost = true;
+    },
+    closeNewPost() {
+      this.showNewPost = false;
+      this.$http({
+        method: "GET",
+        url: "/posts.json"
+      }).then(
+        ({ data }) => {
+          this.loadedPosts = data;
+        },
+        error => {
+          console.error(error);
+        }
+      );
     }
   }
 };

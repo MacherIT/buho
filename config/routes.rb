@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
-  get 'calendario/index'
   resources :posts
   devise_for :users
 
   # Solo para usuarios autenticados (todo el sitio)
   authenticated :user do
+    get 'calendario/index'
     get "/clientes/:cliente_id/redes/:red_id/posts", to: "posts#by_red"
     get "/posts", to: "posts#index"
+    get "/posts.json", to: "posts#index_json"
     resources :clientes do
       resources :redes do
         resources :posts

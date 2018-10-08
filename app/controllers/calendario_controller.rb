@@ -1,8 +1,6 @@
 class CalendarioController < ApplicationController
   def index
 
-    # byebug
-
     @meses = []
     (1..12).each do |index|
       @meses[index - 1] = {
