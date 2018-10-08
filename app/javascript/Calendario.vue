@@ -5,6 +5,13 @@
         span.glyphicon.glyphicon-triangle-left
       .flecha.derecha(@click="setMesActivo(mesActivo + 1)")
         span.glyphicon.glyphicon-triangle-right
+    .filtrar-red
+      select(v-model="filters.red_id.val")
+        option(selected, value="") -- Todas las redes --
+        option(
+          v-for="red in redes"
+          :key="red.id"
+          :value="red.id") {{red.nombre}}
     .meses
       .mes(
         v-for="(mes, index) in months"
@@ -14,17 +21,24 @@
           span {{mes.nombre}}
         .dias
           .dia(
-            v-for="(dia, key, index) in mes.dias")
+            v-for="(dia, key, index) in mes.dias"
+            :class="{today: key === today, old: moment(key).isBefore(today)}")
             .numero
               span {{index + 1}}
             .lista-posts
               .post(
                 v-for="post in dia.posts"
-                :keY="post.id")
-                .hora
-                  span {{moment(post.hora_pub).format('HH:mm')}}
-                .texto
-                  span {{post.titulo}}
+                :key="post.id")
+                .info(@click="setPostActivo(post.id)"
+                v-if="visiblePost(post)")
+                  .hora
+                    span {{moment(post.hora_pub).format('HH:mm')}}
+                  .texto
+                    span {{post.titulo}}
+                CardPost(
+                  v-if="postActivo === post.id"
+                  :post="post"
+                  :set-post-activo="setPostActivo")
     .make-new-post(@click="showmeNewPost")
       span +
     NuevoPost(v-if="showNewPost", :redes="redes", :close-new-post="closeNewPost")
@@ -33,15 +47,27 @@
 <script>
 import moment from "moment";
 import NuevoPost from "./NuevoPost.vue";
+import CardPost from "./CardPost.vue";
 
 export default {
   name: "Calendario",
   props: ["posts", "redes", "meses"],
   components: {
-    NuevoPost
+    NuevoPost,
+    CardPost
   },
   data() {
     return {
+      filters: {
+        red_id: {
+          fun(item) {
+            return item.red_id && item.red_id === this.val;
+          },
+          val: ""
+        }
+      },
+      today: moment().format("YYYY-M-D"),
+      postActivo: -1,
       mesActivo: new Date().getMonth(),
       moment,
       showNewPost: false,
@@ -63,6 +89,14 @@ export default {
     }
   },
   methods: {
+    visiblePost(post) {
+      return Object.keys(this.filters).every(
+        k => (this.filters[k].val ? this.filters[k].fun(post) : true)
+      );
+    },
+    setPostActivo(id) {
+      this.postActivo = id;
+    },
     setMesActivo(index) {
       if (this.months[index]) {
         this.mesActivo = index;
@@ -114,6 +148,21 @@ export default {
       }
     }
   }
+  .filtrar-red {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    select {
+      min-width: 350px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 6px;
+      margin-bottom: 10px;
+      background-color: #fff;
+    }
+  }
   .meses {
     width: 100%;
     .mes {
@@ -141,11 +190,17 @@ export default {
           min-width: 13.8vw;
           height: 18vh;
           position: relative;
-          cursor: pointer;
-          @include sombra(0 0 1px 0 #666);
+          // cursor: pointer;
+          @include sombra(0 0 0 1px #ccc);
           @include ease-transition;
-          &:hover {
-            @include sombra(0 0 4px 0 #000);
+          // &:hover {
+          //   @include sombra(0 0 2px 1px #999);
+          // }
+          &.old {
+            background-color: #eee;
+          }
+          &.today {
+            background-color: #ffa;
           }
           .numero {
             position: absolute;
@@ -153,6 +208,36 @@ export default {
             top: 3px;
             hora_pub span {
               font-size: 80%;
+            }
+          }
+          .lista-posts {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-direction: column;
+            .post {
+              width: 100%;
+              position: relative;
+              .info {
+                font-size: 90%;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 1px 3px;
+                margin: 1px 0;
+                width: 100%;
+                background-color: #255533;
+                color: #fff;
+                cursor: pointer;
+                @include ease-transition;
+                &:hover {
+                  background-color: #279948;
+                }
+                .hora {
+                  margin-right: 5px;
+                }
+              }
             }
           }
         }

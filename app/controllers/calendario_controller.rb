@@ -15,7 +15,7 @@ class CalendarioController < ApplicationController
       end
     end
 
-    @posts = Post.all
+    @posts = Post.all.as_json(methods: :img)
     @redes = Red.all
   end
 end

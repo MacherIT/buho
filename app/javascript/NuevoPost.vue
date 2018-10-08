@@ -48,7 +48,7 @@
         v-validate="'required'"
         name="texto"
         v-model="post.texto")
-      .adjuntos(:class="{disabled: !post.red}")
+      .adjuntos(:class="{disabled: !post.red, focus: adjuntosFocus}")
         .explicacion(v-if="!post.adjunto")
           span ADJUNTAR IMAGEN
         img#tmpimage(v-if="post.adjunto")
@@ -57,7 +57,9 @@
         input#adjuntar-archivo(
           type="file"
           accept="image/*"
-          @change="setAdjunto")
+          @change="setAdjunto"
+          @focus="adjuntosFocus = true"
+          @blur="adjuntosFocus = false")
       input(
         type="submit"
         value="Postear!"
@@ -76,6 +78,7 @@ export default {
   mixins: [mixins.FormValidation],
   data() {
     return {
+      adjuntosFocus: false,
       sent: false,
       fecha_pub: moment(new Date()).format("YYYY-MM-DD"),
       hour_pub: "0",
@@ -124,9 +127,11 @@ export default {
           url: "/posts.json",
           body: data
         }).then(
-          response => {
-            console.log(response);
+          ({ status }) => {
             this.sent = false;
+            if (status === 201) {
+              this.closeNewPost();
+            }
           },
           error => {
             this.sent = false;
@@ -181,6 +186,12 @@ export default {
       width: 100%;
       border: 1px solid #ccc;
       margin: 15px 0;
+      @include ease-transition;
+      border-radius: 4px;
+      overflow: hidden;
+      &.focus {
+        border: 1px solid #dab73d;
+      }
       &.disabled {
         &::before {
           position: absolute;
@@ -210,6 +221,7 @@ export default {
         display: block;
         object-fit: contain;
         height: 314px;
+        width: 100%;
       }
       .quitar-adjunto {
         position: absolute;
