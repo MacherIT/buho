@@ -1,5 +1,12 @@
 version: '3'
 services:
+  yarn:
+    image: netczuk/node-yarn
+    volumes:
+      - ./package.json:/package.json
+      - ./yarn.lock:/yarn.lock
+      - ./node_modules:/node_modules
+    command: yarn install
   db:
     image: postgres
     volumes:
@@ -13,3 +20,4 @@ services:
       - "3000:3000"
     depends_on:
       - db
+      - yarn
