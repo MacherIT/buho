@@ -29,7 +29,7 @@ gem "devise"
 gem "koala"
 gem "factory_bot_rails"
 gem 'mini_magick'
-
+gem "rubypython","0.6.4"
 group :test, :development do
   gem "faker"
   gem 'byebug'
