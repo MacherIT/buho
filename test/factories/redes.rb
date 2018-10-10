@@ -7,9 +7,11 @@
 #  id             :bigint(8)        not null, primary key
 #  nombre         :string           default(""), not null
 #  nombre_display :string
+#  pass           :string
 #  tipo           :integer          default(0), not null
 #  token          :string
 #  updated_at     :datetime         not null
+#  user           :string
 #
 # Indexes
 #

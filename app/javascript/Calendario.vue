@@ -11,7 +11,7 @@
         option(
           v-for="red in redes"
           :key="red.id"
-          :value="red.id") {{red.nombre}}
+          :value="red.id") {{red.nombre}} - {{red.tipo === 1 ? 'INSTAGRAM' : 'FACEBOOK'}}
     .meses
       .mes(
         v-for="(mes, index) in months"
@@ -29,8 +29,10 @@
               .post(
                 v-for="post in dia.posts"
                 :key="post.id")
-                .info(@click="setPostActivo(post.id)"
-                v-if="visiblePost(post)")
+                .info(
+                  @click="setPostActivo(post.id)"
+                  v-if="visiblePost(post)"
+                  :class="{fb: redTipo[post.red_id] === 0, ig: redTipo[post.red_id] === 1}")
                   .hora
                     span {{moment(post.hora_pub).format('HH:mm')}}
                   .texto
@@ -41,7 +43,7 @@
                   :set-post-activo="setPostActivo")
     .make-new-post(@click="showmeNewPost")
       span +
-    NuevoPost(v-if="showNewPost", :redes="redes", :close-new-post="closeNewPost")
+    NuevoPost(v-if="showNewPost", :redes="redes", :close-new-post="closeNewPost", :finish-post="finishPost")
 </template>
 
 <script>
@@ -86,6 +88,13 @@ export default {
         }
       });
       return loadedMonths;
+    },
+    redTipo() {
+      let redes = {};
+      this.redes.map(red => {
+        redes[red.id] = red.tipo;
+      });
+      return redes;
     }
   },
   methods: {
@@ -107,6 +116,8 @@ export default {
     },
     closeNewPost() {
       this.showNewPost = false;
+    },
+    loadPosts() {
       this.$http({
         method: "GET",
         url: "/posts.json"
@@ -116,6 +127,18 @@ export default {
         },
         error => {
           console.error(error);
+        }
+      );
+    },
+    finishPost(request) {
+      this.closeNewPost();
+      request.then(
+        ({ status }) => {
+          this.loadPosts();
+        },
+        error => {
+          // console.error(error);
+          this.loadPosts();
         }
       );
     }
@@ -227,10 +250,15 @@ export default {
                 padding: 1px 3px;
                 margin: 1px 0;
                 width: 100%;
-                background-color: #255533;
                 color: #fff;
                 cursor: pointer;
                 @include ease-transition;
+                &.fb{
+                  background-color: #4267b2;
+                }
+                &.ig{
+                  background-color: #d72b72;
+                }
                 &:hover {
                   background-color: #279948;
                 }
