@@ -39,4 +39,9 @@ class Post < ApplicationRecord
   def img
     rails_blob_path(imagen, only_path: true)
   end
+
+  def postear_programados
+    Post.where("publicado=0 AND hora_pub<=(?)", Time.now)
+    
+  end
 end
