@@ -18,6 +18,7 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-every 1.minute do
-	command "echo 'Hola cron!'"
+every 15.minute do
+	command "echo 'Publique los posts'"
+	runner "Post.publicar_programados"
 end
