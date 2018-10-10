@@ -23,10 +23,20 @@
 #
 
 class Post < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   belongs_to :red
   has_one_attached :imagen
 
   scope :of_red, -> (rid) {
     where(red_id: rid)
   }
+
+  def img_on_disk
+    ActiveStorage::Blob.service.send(:path_for, imagen.key)
+  end
+
+  def img
+    rails_blob_path(imagen, only_path: true)
+  end
 end

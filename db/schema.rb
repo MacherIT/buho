@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 2018_10_05_144219) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.datetime "hora_pub", default: -> { "now()" }, null: false
+    t.datetime "hora_pub", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "titulo"
     t.string "texto", default: "", null: false
     t.integer "publicado", default: 0, null: false

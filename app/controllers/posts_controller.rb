@@ -21,9 +21,10 @@
 #
 #  fk_rails_...  (red_id => redes.id)
 #
-require "net/http"
-require 'json'
+
 class PostsController < ApplicationController
+  skip_before_action :verify_authenticity_token, except: [:update, :destroy]
+
   before_action :set_post, only: %i[show edit update destroy post_test]
 
   def post_test
@@ -45,7 +46,6 @@ class PostsController < ApplicationController
     rescue Koala::Facebook::ClientError => e
       res = e.error_user_msg
     end
-    #
     # res = @page_graph.put_picture("https://www.facebook.com/images/fb_icon_325x325.png", caption: @post.texto)
     # res = @page_graph.put_picture(rails_blob_url(@post.imagen), caption: @post.texto)
     respond_to do |format|
@@ -73,7 +73,10 @@ class PostsController < ApplicationController
   # GET /posts
   def index
     @posts = Post.all
+  end
 
+  def index_json
+    render json: Post.all.as_json(methods: :img_on_disk)
   end
 
   # GET /posts/1
@@ -97,42 +100,25 @@ class PostsController < ApplicationController
     @token = @post.red.token
     @page_graph = Koala::Facebook::API.new(@token)
     if @post.save
-      # res = @page_graph.put_picture(File.new("app/assets/images/macher-portada-linkedin.jpg"), {published:false,scheduled_publish_time: @post.hora_pub.to_time.to_i})
-      res = @page_graph.put_picture(@post.imagen, {message:@post.texto,published:false,scheduled_publish_time: @post.hora_pub.to_time.to_i})
-      # res = @page_graph.put_wall_post(@post.texto, {published:false,scheduled_publish_time: @post.hora_pub.to_time.to_i})
-      # @post.id_facebook_post=res.id
-      # @post.update
-      redirect_to @post, notice: "Post fue creado satisfactoriamente."
+      res = @page_graph.put_picture(
+        File.new(@post.img_on_disk),
+        FileMagic.new(FileMagic::MAGIC_MIME).file(@post.img_on_disk),
+        {
+          message:@post.texto,
+          published:false,
+          scheduled_publish_time: @post.hora_pub.to_time.to_i
+        }
+      )
+      if(res)
+        @post.id_facebook_post = res['id']
+        if @post.save
+          render json: {message: "Post fue creado satisfactoriamente."}, status: 201
+        else
+          render json: {message: "Error"}, status: 500
+        end
+      end
     else
       render :new
-    end
-  end
-
-  # action for post to instagram
-  def create_ig
-    @post = Post.new(post_params)
-    username = @post.red.nombre
-    password = @post.red.token #password en instagram
-    imagen = @post.imagen
-    caption = @post.texto
-
-    if @post.save
-      uri = URI('127.0.0.1:8000')
-      req = Net::HTTP::Post.new(uri)
-      req.set_form_data('username'=>@post.red.nombre,'password'=>password,'imagen'=>imagen,'caption'=>caption)
-      res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end
-      case res
-      when Net::HTTPSuccess, Net::HTTPRedirection
-        # OK
-        redirect_to @post, notice: "Post fue creado satisfactoriamente."
-      else
-        res.value
-        render:new
-      end
-    else
-      render:new
     end
   end
 
