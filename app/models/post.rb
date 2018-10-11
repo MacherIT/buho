@@ -39,9 +39,28 @@ class Post < ApplicationRecord
   def img
     rails_blob_path(imagen, only_path: true)
   end
-
   def postear_programados
-    Post.where("publicado=0 AND hora_pub<=(?)", Time.now)
-    
+    Post.where("publicado=0 AND hora_pub<=(?)", Time.now).each do |post|
+      require 'net/http'
+
+      crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base.slice(0, 32))
+
+      url = URI.parse(URL_PYBUHO)
+      req = Net::HTTP::Post.new(url.to_s)
+      req.body = URI.encode_www_form({
+        username: post.red.user,
+        password: crypt.decrypt_and_verify(post.red.pass),
+        imagen: "#{URL_SERVIDOR}#{post.img}",
+        caption: post.texto,
+        })
+
+      res = Net::HTTP.start(url.host, url.port) {|http|
+        http.request(req)
+      }
+      # por ahora este bloque de codigo va aca arriba hasta que modifique el endpoint de python
+      post.publicado=1
+      post.save
+    end
+
   end
 end

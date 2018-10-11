@@ -122,30 +122,16 @@ class PostsController < ApplicationController
     end
   end
 
+
   def create_ig
     @post = Post.new(post_params)
     if @post.save
-      require 'net/http'
-
-      crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base.slice(0, 32))
-
-      url = URI.parse(URL_PYBUHO)
-      req = Net::HTTP::Post.new(url.to_s)
-      req.body = URI.encode_www_form({
-        username: @post.red.user,
-        password: crypt.decrypt_and_verify(@post.red.pass),
-        imagen: "#{URL_SERVIDOR}#{@post.img}",
-        caption: @post.texto,
-        })
-
-      res = Net::HTTP.start(url.host, url.port) {|http|
-        http.request(req)
-      }
-      
+		render json:{},status:201
     else
       render :new
     end
   end
+
 
   # PATCH/PUT /posts/1
   def update
