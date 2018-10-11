@@ -9,7 +9,13 @@
   <% end %>
 
   <%= f.select :tipo, REDES_TIPOS.map { |k, v| [k.capitalize, v] }, required: true, label: "Red"%>
-  <%= f.text_field :token %>
+  <div id="p_red_fb">
+    <%= f.text_field :token %>
+  </div>
+  <div id="p_red_ig" style="display: none;">
+    <%= f.text_field :user %>
+    <%= f.text_field :pass, type: 'password' %>
+  </div>
   <%= f.text_field :nombre %>
   <%= f.text_field :nombre_display %>
 

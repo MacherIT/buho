@@ -11,7 +11,7 @@
         option(
           v-for="red in redes"
           :key="red.id"
-          :value="red.id") {{red.nombre}}
+          :value="red") {{red.nombre}} - {{red.tipo === 1 ? 'INSTAGRAM' : 'FACEBOOK'}}
       .fecha
         input(
           type="date"
@@ -74,7 +74,7 @@ import mixins from "./mixins";
 
 export default {
   name: "NuevoPost",
-  props: ["closeNewPost", "redes"],
+  props: ["closeNewPost", "redes", "finishPost"],
   mixins: [mixins.FormValidation],
   data() {
     return {
@@ -114,7 +114,7 @@ export default {
       if (this.dirtyForm && this.validForm) {
         this.sent = true;
         let data = new FormData();
-        data.append("post[red_id]", this.post.red);
+        data.append("post[red_id]", this.post.red.id);
         data.append(
           "post[hora_pub]",
           new Date(`${this.fecha_pub} ${this.hour_pub}:${this.minute_pub}`)
@@ -122,21 +122,16 @@ export default {
         data.append("post[titulo]", this.post.titulo);
         data.append("post[texto]", this.post.texto);
         data.append("post[imagen]", this.post.adjunto);
-        this.$http({
-          method: "POST",
-          url: "/posts.json",
-          body: data
-        }).then(
-          ({ status }) => {
-            this.sent = false;
-            if (status === 201) {
-              this.closeNewPost();
-            }
-          },
-          error => {
-            this.sent = false;
-            console.error(error);
-          }
+
+        let urlPost =
+          this.post.red.tipo === 0 ? "/posts.json" : "/posts/create/ig";
+
+        this.finishPost(
+          this.$http({
+            method: "POST",
+            url: urlPost,
+            body: data
+          })
         );
       } else {
         this.$validator.validateAll();

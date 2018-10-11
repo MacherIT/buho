@@ -1,3 +1,5 @@
+<%= javascript_pack_tag 'red' %>
+
 <% @cliente.present?? provide(:title, "Nueva red de #{@cliente.nombre}") : provide(:title, "Nueva red") %>
 
 

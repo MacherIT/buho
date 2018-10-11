@@ -7,9 +7,11 @@
 #  id             :bigint(8)        not null, primary key
 #  nombre         :string           default(""), not null
 #  nombre_display :string
+#  pass           :string
 #  tipo           :integer          default(0), not null
 #  token          :string
 #  updated_at     :datetime         not null
+#  user           :string
 #
 # Indexes
 #
@@ -46,6 +48,9 @@ class RedesController < ApplicationController
   def create
     @red = Red.new(red_params)
 
+    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base.slice(0, 32))
+    @red['pass'] = crypt.encrypt_and_sign(red_params['pass'])
+
     if @red.save
       redirect_to @red, notice: 'Red fue creado satisfactoriamente.'
     else
@@ -77,6 +82,6 @@ class RedesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def red_params
-    params.require(:red).permit(:tipo, :token, :nombre, :nombre_display, :cliente_id)
+    params.require(:red).permit(:tipo, :token, :nombre, :nombre_display, :cliente_id, :user, :pass)
   end
 end
