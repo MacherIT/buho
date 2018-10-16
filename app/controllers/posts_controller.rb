@@ -23,13 +23,15 @@
 #
 
 class PostsController < ApplicationController
-  skip_before_action :verify_authenticity_token, except: [:update, :destroy]
+  # skip_before_action :verify_authenticity_token, except: %i[destroy]
+  skip_before_action :verify_authenticity_token
 
-  before_action :set_post, only: %i[show edit update destroy post_test]
+  before_action :set_post, only: %i[show edit update update_ig destroy destroy_ig post_test]
 
   def post_test
     # return unless @post.approved? && @post.imagen.attached?
     return unless @post.approved?
+
     @token = @post.red.token
     @page_graph = Koala::Facebook::API.new(@token)
 
@@ -41,7 +43,7 @@ class PostsController < ApplicationController
     ###############
     begin
       # res = @page_graph.put_picture(rails_blob_url(@post.imagen), caption: @post.texto)
-      res = @page_graph.put_wall_post(@post.texto, {published:false,scheduled_publish_time: @post.hora_pub.to_time.to_i})
+      res = @page_graph.put_wall_post(@post.texto, published: false, scheduled_publish_time: @post.hora_pub.to_time.to_i)
       # TODO: Salvar este error, por algun motivo no esta andando
     rescue Koala::Facebook::ClientError => e
       res = e.error_user_msg
@@ -103,18 +105,16 @@ class PostsController < ApplicationController
       res = @page_graph.put_picture(
         File.new(@post.img_on_disk),
         FileMagic.new(FileMagic::MAGIC_MIME).file(@post.img_on_disk),
-        {
-          message:@post.texto,
-          published:false,
-          scheduled_publish_time: @post.hora_pub.to_time.to_i
-        }
+        message: @post.texto,
+        published: false,
+        scheduled_publish_time: @post.hora_pub.to_time.to_i
       )
-      if(res)
-        @post.id_facebook_post = res['id']
+      if res
+        @post.id_facebook_post = res["id"]
         if @post.save
-          render json: {message: "Post fue creado satisfactoriamente."}, status: 201
+          render json: { message: "Post fue creado satisfactoriamente." }, status: :created
         else
-          render json: {message: "Error"}, status: 500
+          render json: { message: "Error" }, status: :internal_server_error
         end
       end
     else
@@ -122,21 +122,52 @@ class PostsController < ApplicationController
     end
   end
 
-
   def create_ig
     @post = Post.new(post_params)
     if @post.save
-		render json:{},status:201
+      render json: {}, status: :created
     else
       render :new
     end
   end
 
-
   # PATCH/PUT /posts/1
   def update
     if @post.update(post_params)
-      redirect_to @post, notice: "Post fue guardado satisfactoriamente."
+      if @post.id_facebook_post
+        @page_graph = Koala::Facebook::API.new(@post.red.token)
+        del = @page_graph.delete_object(@post.id_facebook_post)
+        if del && del["success"]
+          @post.publicado = 0
+          res = @page_graph.put_picture(
+            File.new(@post.img_on_disk),
+            FileMagic.new(FileMagic::MAGIC_MIME).file(@post.img_on_disk),
+            message: @post.texto,
+            published: false,
+            scheduled_publish_time: @post.hora_pub.to_time.to_i
+          )
+          if res
+            @post.id_facebook_post = res["id"]
+            if @post.save
+              render json: { message: "Post fue actualizado correctamente." }
+            else
+              render json: { message: "Error" }, status: :internal_server_error
+            end
+          end
+        else
+          render json: { message: "Error" }, status: :internal_server_error
+        end
+      else
+        render json: { message: "Post fue actualizado correctamente." }
+      end
+    else
+      render :edit
+    end
+  end
+
+  def update_ig
+    if @post.update(post_params)
+      render json: { message: "Post fue actualizado correctamente." }
     else
       render :edit
     end
@@ -144,8 +175,21 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1
   def destroy
+    if @post.id_facebook_post
+      @page_graph = Koala::Facebook::API.new(@post.red.token)
+      del = @page_graph.delete_object(@post.id_facebook_post)
+      if del && del["success"]
+        @post.destroy
+        render json: { message: "Post fue eliminado satisfactoriamente." }
+      else
+        render json: { message: "Error" }, status: :internal_server_error
+      end
+    end
+  end
+
+  def destroy_ig
     @post.destroy
-    redirect_to posts_url, notice: "Post fue eliminado satisfactoriamente."
+    render json: { message: "Post fue eliminado satisfactoriamente." }
   end
 
   private

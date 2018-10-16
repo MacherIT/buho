@@ -40,8 +40,12 @@ class Post < ApplicationRecord
     rails_blob_path(imagen, only_path: true)
   end
 
+  scope :no_publicados_viejos_ig, -> () {
+    includes(:red).where("publicado = 0 AND hora_pub <= (?) AND redes.tipo = (?)", Time.now, REDES_TIPOS[:INSTAGRAM]).references(:red)
+  }
+
   def self.postear_programados
-    Post.where("publicado=0 AND hora_pub<=(?)", Time.now).each do |post|
+    Post.no_publicados_viejos_ig.each do |post|
       require 'net/http'
 
       crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base.slice(0, 32))

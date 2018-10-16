@@ -22,7 +22,7 @@
         .dias
           .dia(
             v-for="(dia, key, index) in mes.dias"
-            :class="{today: key === today, old: moment(key).isBefore(today)}")
+            :class="{today: key === today, old: moment(new Date(key)).isBefore(today)}")
             .numero
               span {{index + 1}}
             .lista-posts
@@ -40,15 +40,20 @@
                 CardPost(
                   v-if="postActivo === post.id"
                   :post="post"
-                  :set-post-activo="setPostActivo")
+                  :set-post-activo="setPostActivo"
+                  :showme-edit-post="showmeEditPost"
+                  :redes="redes"
+                  :close-card-post="closeCardPost")
     .make-new-post(@click="showmeNewPost")
       span +
-    NuevoPost(v-if="showNewPost", :redes="redes", :close-new-post="closeNewPost", :finish-post="finishPost")
+    NuevoPost(v-if="showNewPost", :redes="redes", :close-new-post="closeNewPost")
+    EditPost(v-if="showEditPost", :redes="redes", :close-edit-post="closeEditPost", :post="postToEdit")
 </template>
 
 <script>
 import moment from "moment";
 import NuevoPost from "./NuevoPost.vue";
+import EditPost from "./EditPost.vue";
 import CardPost from "./CardPost.vue";
 
 export default {
@@ -56,6 +61,7 @@ export default {
   props: ["posts", "redes", "meses"],
   components: {
     NuevoPost,
+    EditPost,
     CardPost
   },
   data() {
@@ -68,11 +74,13 @@ export default {
           val: ""
         }
       },
+      postToEdit: false,
       today: moment().format("YYYY-M-D"),
       postActivo: -1,
       mesActivo: new Date().getMonth(),
       moment,
       showNewPost: false,
+      showEditPost: false,
       loadedPosts: JSON.parse(JSON.stringify(this.posts))
     };
   },
@@ -111,11 +119,24 @@ export default {
         this.mesActivo = index;
       }
     },
+    showmeEditPost(post) {
+      this.showEditPost = true;
+      this.postToEdit = post;
+    },
     showmeNewPost() {
       this.showNewPost = true;
     },
     closeNewPost() {
       this.showNewPost = false;
+      this.loadPosts();
+    },
+    closeEditPost() {
+      this.showEditPost = false;
+      this.loadPosts();
+    },
+    closeCardPost() {
+      this.setPostActivo(-1);
+      this.loadPosts();
     },
     loadPosts() {
       this.$http({
@@ -127,18 +148,6 @@ export default {
         },
         error => {
           console.error(error);
-        }
-      );
-    },
-    finishPost(request) {
-      this.closeNewPost();
-      request.then(
-        ({ status }) => {
-          this.loadPosts();
-        },
-        error => {
-          // console.error(error);
-          this.loadPosts();
         }
       );
     }
@@ -253,10 +262,10 @@ export default {
                 color: #fff;
                 cursor: pointer;
                 @include ease-transition;
-                &.fb{
+                &.fb {
                   background-color: #4267b2;
                 }
-                &.ig{
+                &.ig {
                   background-color: #d72b72;
                 }
                 &:hover {

@@ -1,26 +1,19 @@
 <template lang="pug">
-  .contenedor-new-post
-    .cerrar-popup(@click="closeNewPost")
+  .contenedor-edit-post
+    .cerrar-popup(@click="closeEditPost")
       font-awesome-icon(icon="times")
     form(@submit.prevent="crearPost", novalidate)
       select(
-        v-model="post.red"
-        v-validate="'required'"
+        disabled="disabled"
         name="red")
-        option(selected, disabled, value="") -- Seleccionar red --
-        option(
-          v-for="red in redes"
-          :key="red.id"
-          :value="red") {{red.nombre}} - {{red.tipo === 1 ? 'INSTAGRAM' : 'FACEBOOK'}}
+        option(selected, disabled, value="") {{redActual.nombre}} - {{redActual.tipo === 1 ? 'INSTAGRAM' : 'FACEBOOK'}}
       .fecha
         input(
           type="date"
           v-model="fecha_pub"
-          :disabled="!post.red"
           placeholder="Fecha")
         select(
-          v-model="hour_pub"
-          :disabled="!post.red")
+          v-model="hour_pub")
           option(selected, disabled, value="") -- Hora --
           option(value="0") 00
           option(
@@ -28,8 +21,7 @@
             :key="hora"
             :value="hora") {{hora > 9 ? hora : '0' + hora}}
         select(
-          v-model="minute_pub"
-          :disabled="!post.red")
+          v-model="minute_pub")
           option(selected, disabled, value="") -- Minuto --
           option(value="0") 00
           option(value="15") 15
@@ -37,21 +29,19 @@
           option(value="45") 45
       input(
         type="text"
-        :disabled="!post.red"
         placeholder="Título"
         v-validate="'required'"
         name="titulo"
         v-model="post.titulo")
       textarea(
-        :disabled="!post.red"
         placeholder="Cuerpo"
         v-validate="'required'"
         name="texto"
         v-model="post.texto")
-      .adjuntos(:class="{disabled: !post.red, focus: adjuntosFocus}")
+      .adjuntos(:class="{focus: adjuntosFocus}")
         .explicacion(v-if="!post.adjunto")
           span ADJUNTAR IMAGEN
-        img#tmpimage(v-if="post.adjunto")
+        img#tmpimage
         .quitar-adjunto(v-if="post.adjunto", @click="quitarAdjunto")
           font-awesome-icon(icon="times")
         input#adjuntar-archivo(
@@ -66,7 +56,7 @@
         input(
           type="submit"
           value="Postear!"
-          :disabled="!(dirtyForm && validForm) || sent")
+          :disabled="(dirtyForm && !validForm) || sent")
 </template>
 
 <script>
@@ -74,24 +64,29 @@ import moment from "moment";
 import mixins from "./mixins";
 
 export default {
-  name: "NuevoPost",
-  props: ["closeNewPost", "redes"],
+  name: "EditPost",
+  props: {
+    closeEditPost: Function,
+    redes: Array,
+    post: { type: Object, required: true }
+  },
   mixins: [mixins.FormValidation],
   data() {
     return {
+      redActual: "",
       adjuntosFocus: false,
       sent: false,
       fecha_pub: moment(new Date()).format("YYYY-MM-DD"),
       hour_pub: "0",
-      minute_pub: "0",
-      post: {
-        adjunto: "",
-        hora_pub: "",
-        red: "",
-        titulo: "",
-        texto: ""
-      }
+      minute_pub: "0"
     };
+  },
+  mounted() {
+    this.fecha_pub = moment(new Date(this.post.hora_pub)).format("YYYY-MM-DD");
+    this.hour_pub = moment(new Date(this.post.hora_pub)).format("HH");
+    this.minute_pub = moment(new Date(this.post.hora_pub)).format("mm");
+    this.redActual = this.redes.find(red => red.id === this.post.red_id);
+    document.querySelector("#tmpimage").src = this.post.img;
   },
   methods: {
     setAdjunto(event) {
@@ -112,32 +107,34 @@ export default {
       this.post.adjunto = "";
     },
     crearPost() {
-      if (this.dirtyForm && this.validForm) {
+      if (this.validForm) {
         this.sent = true;
         let data = new FormData();
-        data.append("post[red_id]", this.post.red.id);
+        data.append("post[red_id]", this.post.red_id);
         data.append(
           "post[hora_pub]",
           new Date(`${this.fecha_pub} ${this.hour_pub}:${this.minute_pub}`)
         );
         data.append("post[titulo]", this.post.titulo);
         data.append("post[texto]", this.post.texto);
-        data.append("post[imagen]", this.post.adjunto);
+        this.post.adjunto && data.append("post[imagen]", this.post.adjunto);
 
-        let urlPost =
-          this.post.red.tipo === 0 ? "/posts.json" : "/posts/create/ig";
+        let urlPut =
+          this.redActual.tipo === 0
+            ? `/posts/${this.post.id}`
+            : `/posts/${this.post.id}/edit/ig`;
 
         this.$http({
-          method: "POST",
-          url: urlPost,
+          method: "PUT",
+          url: urlPut,
           body: data
         }).then(
           ({ status }) => {
-            this.closeNewPost();
+            this.closeEditPost();
           },
           error => {
             // console.error(error);
-            this.closeNewPost();
+            this.closeEditPost();
           }
         );
       } else {
@@ -151,7 +148,7 @@ export default {
 <style lang="scss" scoped>
 @import "config.scss";
 
-.contenedor-new-post {
+.contenedor-edit-post {
   position: fixed;
   background-color: #fff;
   width: 50vw;
