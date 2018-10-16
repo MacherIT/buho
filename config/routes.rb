@@ -17,8 +17,8 @@ Rails.application.routes.draw do
     end
     resources :redes
     post '/posts/create/ig', to: 'posts#create_ig'
-    post '/posts/:id/edit/ig', to: 'posts#update_ig'
-    post '/posts/:id/delete/ig', to: 'posts#destroy_ig'
+    put '/posts/:id/edit/ig', to: 'posts#update_ig'
+    deltee '/posts/:id/delete/ig', to: 'posts#destroy_ig'
     post "/post_test/:id", to: "posts#post_test"
     post "/post_imagen/:id", to: "posts#imagen_url"
     root to: "clientes#index" # , as: :authenticated_root
