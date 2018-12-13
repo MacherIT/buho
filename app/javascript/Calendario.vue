@@ -19,6 +19,14 @@
         v-if="mes && index === mesActivo")
         .titulo
           span {{mes.nombre}}
+        .dows
+          .dow L
+          .dow M
+          .dow X
+          .dow J
+          .dow V
+          .dow S
+          .dow D
         .dias
           .dia(
             v-for="(dia, key, index) in mes.dias"
@@ -37,6 +45,8 @@
                     span {{moment(post.hora_pub).format('HH:mm')}}
                   .texto
                     span {{post.titulo}}
+                  .imagen
+                    img(:src="post.cliente_logo")
                 CardPost(
                   v-if="postActivo === post.id"
                   :post="post"
@@ -144,6 +154,7 @@ export default {
         url: "/posts.json"
       }).then(
         ({ data }) => {
+          console.log(data[0].img);
           this.loadedPosts = data;
         },
         error => {
@@ -208,6 +219,13 @@ export default {
           font-weight: bold;
         }
       }
+      .dows {
+        display: flex;
+        width: 100%;
+        .dow {
+          width: 100/7 * 1%;
+        }
+      }
       .dias {
         width: 100%;
         display: flex;
@@ -218,8 +236,8 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 13.8vw;
-          min-width: 13.8vw;
+          width: 100/7 * 1%;
+          min-width: 100/7 * 1%;
           height: 18vh;
           position: relative;
           // cursor: pointer;
@@ -256,7 +274,8 @@ export default {
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                padding: 1px 3px;
+                padding: 0 3px;
+                height: 25px;
                 margin: 1px 0;
                 width: 100%;
                 color: #fff;
@@ -273,6 +292,17 @@ export default {
                 }
                 .hora {
                   margin-right: 5px;
+                }
+              }
+              .imagen {
+                width: 30px;
+                height: 100%;
+                position: absolute;
+                right: 3px;
+                img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: contain;
                 }
               }
             }

@@ -40,6 +40,10 @@ class Post < ApplicationRecord
     rails_blob_path(imagen, only_path: true)
   end
 
+  def cliente_logo
+    rails_blob_path(red.cliente.logo, only_path: true)
+  end
+
   scope :no_publicados_viejos_ig, -> () {
     includes(:red).where("publicado = 0 AND hora_pub <= (?) AND redes.tipo = (?)", Time.now, REDES_TIPOS[:INSTAGRAM]).references(:red)
   }

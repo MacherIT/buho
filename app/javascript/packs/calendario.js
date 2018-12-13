@@ -1,4 +1,20 @@
-import Vue from "vue";
+setTimeout(() => {
+  if (!document.querySelector("#contenedor-calendario #calendario")) {
+    const el = document.querySelector("#contenedor-calendario");
+    if (!!el) {
+      const props = JSON.parse(el.getAttribute("data"));
+      const app = new Vue({
+        el,
+        render: h => h(App, { props })
+      });
+    }
+  }
+}, 2000);
+
+//= require turbolinks
+
+// import Vue from "vue";
+import Vue from "vue/dist/vue.esm.js";
 import VueResource from "vue-resource";
 import VeeValidate from "vee-validate";
 import TurbolinksAdapter from "vue-turbolinks";
@@ -13,14 +29,17 @@ library.add(faCoffee, faSolid, faBrands);
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
+Vue.use(TurbolinksAdapter);
 Vue.use(VueResource);
 Vue.use(VeeValidate);
 
 document.addEventListener("turbolinks:load", () => {
   const el = document.querySelector("#contenedor-calendario");
-  const props = JSON.parse(el.getAttribute("data"));
-  const app = new Vue({
-    el,
-    render: h => h(App, { props })
-  });
+  if (!!el) {
+    const props = JSON.parse(el.getAttribute("data"));
+    const app = new Vue({
+      el,
+      render: h => h(App, { props })
+    });
+  }
 });

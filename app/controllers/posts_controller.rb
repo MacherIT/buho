@@ -77,9 +77,9 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
-  def index_json
-    render json: Post.all.as_json(methods: :img_on_disk)
-  end
+  # def index_json
+  #   render json: Post.all.as_json(methods: :img)
+  # end
 
   # GET /posts/1
   def show
@@ -177,12 +177,21 @@ class PostsController < ApplicationController
   def destroy
     if @post.id_facebook_post
       @page_graph = Koala::Facebook::API.new(@post.red.token)
-      del = @page_graph.delete_object(@post.id_facebook_post)
-      if del && del["success"]
-        @post.destroy
-        render json: { message: "Post fue eliminado satisfactoriamente." }
-      else
-        render json: { message: "Error" }, status: :internal_server_error
+      begin
+        exists_fb_post = @page_graph.get_object(@post.id_facebook_post)
+        del = @page_graph.delete_object(@post.id_facebook_post)
+        if del && del["success"]
+          @post.destroy
+          render json: { message: "Post fue eliminado satisfactoriamente." }
+        else
+          render json: { message: "Error" }, status: :internal_server_error
+        end
+      rescue Exception => e
+        if @post.destroy
+          render json: { message: "Post fue eliminado satisfactoriamente." }
+        else
+          render json: { message: "Error" }, status: :internal_server_error
+        end
       end
     end
   end

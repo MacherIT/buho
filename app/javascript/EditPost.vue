@@ -86,6 +86,7 @@ export default {
     this.hour_pub = moment(new Date(this.post.hora_pub)).format("HH");
     this.minute_pub = moment(new Date(this.post.hora_pub)).format("mm");
     this.redActual = this.redes.find(red => red.id === this.post.red_id);
+    console.log(this.post.img);
     document.querySelector("#tmpimage").src = this.post.img;
   },
   methods: {
