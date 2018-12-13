@@ -9,3 +9,6 @@ PUBLICADO_ESTADOS = {
   PUBLICADO: 1,
   NO_PUBLICADO: 0
 }.freeze
+
+URL_PYBUHO = "http://localhost:8000"
+URL_SERVIDOR = "http://localhost:3000"

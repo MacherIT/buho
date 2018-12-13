@@ -7,9 +7,11 @@
 #  id             :bigint(8)        not null, primary key
 #  nombre         :string           default(""), not null
 #  nombre_display :string
+#  pass           :string
 #  tipo           :integer          default(0), not null
 #  token          :string
 #  updated_at     :datetime         not null
+#  user           :string
 #
 # Indexes
 #
@@ -40,11 +42,16 @@ class RedesController < ApplicationController
 
   # GET /redes/1/edit
   def edit
+    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base.slice(0, 32))
+    @red.pass = crypt.decrypt_and_verify(@red.pass)
   end
 
   # POST /redes
   def create
     @red = Red.new(red_params)
+
+    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base.slice(0, 32))
+    @red['pass'] = crypt.encrypt_and_sign(red_params['pass'])
 
     if @red.save
       redirect_to @red, notice: 'Red fue creado satisfactoriamente.'
@@ -55,7 +62,13 @@ class RedesController < ApplicationController
 
   # PATCH/PUT /redes/1
   def update
-    if @red.update(red_params)
+
+    pars = red_params
+
+    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base.slice(0, 32))
+    pars['pass'] = crypt.encrypt_and_sign(red_params['pass'])
+
+    if @red.update(pars)
       redirect_to @red, notice: 'Red fue guardado satisfactoriamente.'
     else
       render :edit
@@ -77,6 +90,6 @@ class RedesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def red_params
-    params.require(:red).permit(:tipo, :token, :nombre, :nombre_display, :cliente_id)
+    params.require(:red).permit(:tipo, :token, :nombre, :nombre_display, :cliente_id, :user, :pass)
   end
 end

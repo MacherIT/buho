@@ -47,6 +47,7 @@ class ClientesController < ApplicationController
   # POST /clientes
   def create
     @cliente = Cliente.new(cliente_params)
+    @cliente.logo.attach(cliente_params['logo'])
 
     if @cliente.save
       redirect_to @cliente, notice: "Cliente fue creado satisfactoriamente."
@@ -79,6 +80,6 @@ class ClientesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def cliente_params
-    params.require(:cliente).permit(:nombre)
+    params.require(:cliente).permit(:nombre, :logo)
   end
 end

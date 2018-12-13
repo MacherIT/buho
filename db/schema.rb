@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_27_192804) do
+ActiveRecord::Schema.define(version: 2018_10_09_154144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 2018_08_27_192804) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.datetime "hora_pub", default: -> { "now()" }, null: false
+    t.datetime "hora_pub", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "titulo"
     t.string "texto", default: "", null: false
     t.integer "publicado", default: 0, null: false
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2018_08_27_192804) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "approved", default: false
+    t.text "id_facebook_post"
     t.index ["red_id"], name: "index_posts_on_red_id"
   end
 
@@ -62,6 +63,8 @@ ActiveRecord::Schema.define(version: 2018_08_27_192804) do
     t.bigint "cliente_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "user"
+    t.string "pass"
     t.index ["cliente_id"], name: "index_redes_on_cliente_id"
   end
 
