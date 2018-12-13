@@ -1,0 +1,1 @@
+{"version":3,"file":"hello_vue-76755289f72a03f30097a8781d81c2ca.css","sources":["webpack:///./app/javascript/app.vue"],"sourcesContent":["#main {\n  background-color: red; }\n  #main span {\n    display: block;\n    background-color: red; }\n\n\n\n// WEBPACK FOOTER //\n// ./app/javascript/app.vue"],"mappings":";AAAA;AACA;AAAA;AACA;AACA;AACA;AAAA;","sourceRoot":""}
